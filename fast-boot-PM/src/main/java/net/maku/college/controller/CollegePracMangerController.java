@@ -55,11 +55,20 @@ public class CollegePracMangerController {
         return Result.ok(page);
     }
 
-
+    /*
+     * Prams:
+     *   year:年份
+     *   name:公司名称
+     *   query:查询语句
+     * */
     @GetMapping("search")
-    public Result<PageResult<SysAllOrgPracEntity>> getPracsByConditions(@RequestParam(required = false) Map<String,Object> conditions) {
-
-        return null;
+    @Operation(summary = "实习页面根据条件进行查询")
+    public Result<PageResult<SysAllOrgPracEntity>> getPracsByConditions(Query query,@RequestParam(required = false) Map<String,String> conditions) {
+        List<SysAllOrgPracEntity> pracs = sysOrgPracManageService.getPracsByConditions(conditions);
+        // 进行分页
+        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), pracs);
+        PageResult<SysAllOrgPracEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
+        return Result.ok(page);
     }
 
     @GetMapping("/post/{orgId}/{pracId}")

@@ -11,6 +11,7 @@ import net.maku.framework.common.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description: 企业实习总表管理
@@ -76,6 +77,15 @@ public class SysOrgPracManageServiceImpl extends BaseServiceImpl<SysOrgPracManag
     public Integer getAllPracNum(Long orgId) {
         List<SysOrgPracManageEntity> allPracMessage = getAllPracMessage(orgId);
         return allPracMessage.size();
+    }
+
+
+    /*
+     *  by lzm
+     * */
+    @Override
+    public List<SysAllOrgPracEntity> getPracsByConditions(Map<String, String> conditions) {
+        return baseMapper.getPracsByConditions(conditions);
     }
 
 

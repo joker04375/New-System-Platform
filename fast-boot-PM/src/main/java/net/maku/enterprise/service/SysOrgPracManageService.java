@@ -5,6 +5,7 @@ import net.maku.enterprise.entity.interation.SysAllOrgPracEntity;
 import net.maku.framework.common.service.BaseService;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SysOrgPracManageService extends BaseService<SysOrgPracManageEntity> {
 
@@ -28,5 +29,8 @@ public interface SysOrgPracManageService extends BaseService<SysOrgPracManageEnt
     List<SysAllOrgPracEntity> getAllPrac();
 
     Integer getAllPracNum(Long orgId);
+
+    List<SysAllOrgPracEntity> getPracsByConditions(Map<String,String> conditions);
+
 
 }

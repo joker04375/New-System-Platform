@@ -9,4 +9,23 @@
                            ON detail.org_id = org.org_id
         ORDER BY detail.prac_status DESC
     </select>
+
+    <select id="getPracsByConditions" parameterType="java.util.Map" resultType="net.maku.enterprise.entity.interation.SysAllOrgPracEntity">
+        SELECT detail.org_id,detail.prac_id,detail.prac_intro,detail.prac_addr,detail.prac_num,detail.prac_status,detail.prac_name,org.name
+        FROM `sys_org_prac_manage` AS detail
+        LEFT JOIN `sys_org_details` AS org
+        ON detail.org_id = org.org_id
+        <where>
+            <if test = " name != null and name != '' ">
+                and org.name LIKE "%"#{name}"%"
+            </if>
+            <if test = " year != null and year != '' ">
+                and detail.create_time LIKE "%"#{year}"%"
+            </if>
+            <if test = " query != null and query != '' ">
+                and detail.prac_name like "%"#{query}"%"
+            </if>
+        </where>
+        ORDER BY detail.prac_status DESC
+    </select>
 </mapper>
