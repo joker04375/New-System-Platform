@@ -24,6 +24,14 @@ public class SysOrgDetailsServiceImpl extends BaseServiceImpl<SysOrgDetailsDao, 
         return baseMapper.selectList(new QueryWrapper<>());
     }
 
+    /**
+     * author: leo
+     * */
+    @Override
+    public List<SysOrgDetailsEntity> getByQuery(String query) {
+        return baseMapper.selectList(new QueryWrapper<SysOrgDetailsEntity>().like("name",query));
+    }
+
     @Override
     public SysOrgDetailsEntity getDetails(Long Id) {
         SysOrgDetailsEntity sysOrgDetailsEntity = baseMapper.selectOne(new QueryWrapper<SysOrgDetailsEntity>()

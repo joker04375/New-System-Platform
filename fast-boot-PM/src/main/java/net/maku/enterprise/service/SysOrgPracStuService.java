@@ -23,5 +23,9 @@ public interface SysOrgPracStuService extends BaseService<SysOrgPracStuEntity> {
     List<SysOrgPracStuEntity> getAllOutStu(Long orgId, Long pracId);
     //void addApplyStu(SysStuApplyPostDTO sysStuApplyPostDTO);
 
+    /**
+     * author:lzm
+     */
+    List<SysOrgPracStuEntity> getAllStusByPracs(List<Long> pracId);
 
 }

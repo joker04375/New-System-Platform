@@ -49,4 +49,9 @@ public class SysAllOrgPracEntity {
      *实习简介
      */
     private String pracIntro;
+
+    /**
+     *公司名称
+     */
+    private String name;
 }

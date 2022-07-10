@@ -97,6 +97,14 @@ public class SysOrgPracStuServiceImpl extends BaseServiceImpl<SysOrgPracStuDao, 
         return stuEntities;
     }
 
+    /**
+     * author:lzm
+     */
+    @Override
+    public List<SysOrgPracStuEntity> getAllStusByPracs(List<Long> pracId) {
+        return baseMapper.getAllStusByPracs(pracId);
+    }
+
    /* @Override
     public void addApplyStu(SysStuApplyPostDTO DTO) {
         SysOrgPracStuEntity stuEntity = new SysOrgPracStuEntity(DTO);

@@ -1,9 +1,12 @@
 package net.maku.college.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import net.maku.college.entity.SysCollegePracEntity;
+import net.maku.college.service.SysCollegePracService;
 import net.maku.enterprise.entity.SysOrgPracFileEntity;
 import net.maku.enterprise.entity.SysOrgPracInterviewEntity;
 import net.maku.enterprise.entity.SysOrgPracPostEntity;
@@ -16,6 +19,8 @@ import net.maku.framework.common.service.SysPublicFileService;
 import net.maku.framework.common.utils.FileUtils;
 import net.maku.framework.common.utils.PageListUtils;
 import net.maku.framework.common.utils.Result;
+import net.maku.student.entity.SysStuPostEntity;
+import net.maku.student.service.SysStuManageService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,12 +50,30 @@ public class CollegePracMangerController {
 
     private final SysPublicFileService sysPublicFileService;
 
-    @GetMapping("home")
-    @Operation(summary = "查看所有实习项目")
-    public Result<PageResult<SysAllOrgPracEntity>> getAllPracsByStatus(Query query) {
-        List<SysAllOrgPracEntity> allPrac = sysOrgPracManageService.getAllPrac();
+    private final SysCollegePracService sysCollegePracService;
+
+    private final SysStuManageService sysStuManageService;
+
+    @GetMapping("specificTimePracs")
+    @Operation(summary = "查看某一学院某一批次下所有实习项目")
+    public Result<PageResult<SysAllOrgPracEntity>> getAllPracsByCollegeAndTime(Query query,int collegeId,int timeId) {
+        // 中间表通过CollegeId和TimeId查询到这一学院这一批次下的所有实习id
+        List<Long> pracIds = sysCollegeEnterpriseService.getByCollegeAndTime(collegeId,timeId);
+        List<SysAllOrgPracEntity> pracs = sysOrgPracManageService.getByPracIds(pracIds);
         // 进行分页
-        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), allPrac);
+        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), pracs);
+        PageResult<SysAllOrgPracEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
+        return Result.ok(page);
+    }
+
+    @GetMapping("specificimeStus")
+    @Operation(summary = "查看某一学院某一批次下所有实习学生")
+    public Result<PageResult<SysOrgPracStuEntity>> getAllStusByCollegeAndTime(Query query,int collegeId,int timeId) {
+        // 中间表通过CollegeId和TimeId查询到这一学院这一批次下的所有实习id
+        List<Long> pracIds = sysCollegeEnterpriseService.getByCollegeAndTime(collegeId,timeId);
+        List<SysOrgPracStuEntity> stus = sysOrgPracStuService.getAllPracStuMessage(orgId, pracId);
+        // 进行分页
+        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), pracs);
         PageResult<SysAllOrgPracEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
         return Result.ok(page);
     }
@@ -106,6 +129,28 @@ public class CollegePracMangerController {
     public Result<List<SysOrgPracInterviewEntity>> getAllInterview(@PathVariable(name = "orgId") long orgId, @PathVariable(name = "pracId") long pracId) {
         List<SysOrgPracInterviewEntity> allInterviews = sysOrgPracInterviewService.getAllInterviews(orgId, pracId);
         return Result.ok(allInterviews);
+    }
+
+    @GetMapping("home")
+    @Operation(summary = "查看该学院下发布的实习批次（根据年份排序）")
+    public Result<List<SysCollegePracEntity>> getAllPracsByStatus(Query query) {
+        for (SysCollegePracEntity collegePrac : sysCollegePracService.getAllOrderByYear()) {
+            int collegeId = collegePrac.getCollegeId();
+            long timeId = collegePrac.getTimeId();
+            // 中间表通过CollegeId和TimeId查询到这一学院这一批次下的所有实习id
+            List<long> pracIds = sysCollegeEnterpriseService.getByCollegeAndTime(collegeId,timeId);
+            long count = sysStuManageService.count(new QueryWrapper<SysStuPostEntity>().in("prac_id", pracIds));
+            collegePrac.setStuNum(count);
+        }
+    }
+
+
+
+    @PostMapping("postInternship")
+    @Operation(summary = "学院发表单期实习")
+    public Result<String> postInternship(@RequestParam("year") String year, @RequestParam("name") String quarter,@RequestParam("college_id") int collegeId) {
+        sysCollegePracService.postInternship(year,quarter,collegeId);
+        return Result.ok("Success");
     }
 
     @PostMapping("post/fileUpload/{orgId}/{pracId}")

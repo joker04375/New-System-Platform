@@ -18,6 +18,11 @@ public interface SysOrgDetailsService extends BaseService<SysOrgDetailsEntity>{
         * */
         List<SysOrgDetailsEntity> getAllOrgDetails();
 
+        /**
+         * author: leo
+         * */
+        List<SysOrgDetailsEntity> getByQuery(String query);
+
         SysOrgDetailsEntity getDetails(Long Id);
 
         Boolean update(SysOrgDetailsEntity sysOrgDetailsEntity);

@@ -30,7 +30,14 @@ public interface SysOrgPracManageService extends BaseService<SysOrgPracManageEnt
 
     Integer getAllPracNum(Long orgId);
 
+    /**
+     * author: leo
+     * */
     List<SysAllOrgPracEntity> getPracsByConditions(Map<String,String> conditions);
 
+    /**
+     * author: leo
+     * */
+    List<SysAllOrgPracEntity> getByPracIds(List<Long> pracId);
 
 }

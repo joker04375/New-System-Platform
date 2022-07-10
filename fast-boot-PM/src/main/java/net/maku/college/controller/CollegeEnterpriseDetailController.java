@@ -37,4 +37,14 @@ public class CollegeEnterpriseDetailController {
         SysOrgDetailsEntity details = sysOrgDetailsService.getDetails(orgId);
         return Result.ok(details);
     }
+
+    @GetMapping("search")
+    @Operation(summary = "搜索功能（根据公司名）")
+    public Result<PageResult<SysOrgDetailsEntity>> getEnterpriseByName(Query query, @RequestParam("query") String name) {
+        List<SysOrgDetailsEntity> allEnterprise = sysOrgDetailsService.getByQuery(name);
+        // 进行分页
+        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), allEnterprise);
+        PageResult<SysOrgDetailsEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
+        return Result.ok(page);
+    }
 }

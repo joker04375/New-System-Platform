@@ -88,5 +88,13 @@ public class SysOrgPracManageServiceImpl extends BaseServiceImpl<SysOrgPracManag
         return baseMapper.getPracsByConditions(conditions);
     }
 
+    /*
+     *  by lzm
+     * */
+    @Override
+    public List<SysAllOrgPracEntity> getByPracIds(List<Long> pracIds) {
+        return baseMapper.getByPracIds(pracIds);
+    }
+
 
 }

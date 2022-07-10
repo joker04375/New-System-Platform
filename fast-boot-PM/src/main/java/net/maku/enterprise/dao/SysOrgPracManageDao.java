@@ -13,6 +13,13 @@ public interface SysOrgPracManageDao extends BaseDao<SysOrgPracManageEntity>{
 
     List<SysAllOrgPracEntity> getAllPrac();
 
+    /**
+     * author: leo
+     * */
     List<SysAllOrgPracEntity> getPracsByConditions(Map<String,String> map);
 
+    /**
+     * author: leo
+     * */
+    List<SysAllOrgPracEntity> getByPracIds(List<Long> pracIds);
 }

@@ -25,9 +25,9 @@ public class CollegeUserController {
     private final CollegeUserService collegeUserService;
     private final SysPublicFileService sysPublicFileService;
 
-    @GetMapping("/info/{roleName}")
+    @GetMapping("/info/{collegeId}/{roleName}")
     @Operation(summary = "用户管理（针对不同角色）")
-    public Result<PageResult<SysUserEntity>> getAllStudents(Query query, @PathVariable(name = "roleName") String roleName) {
+    public Result<PageResult<SysUserEntity>> getAllStudents(Query query,@PathVariable(name = "collegeId") int collegeId, @PathVariable(name = "roleName") String roleName) {
         List<SysUserEntity> students = collegeUserService.getAllUserByRole(roleName);
         // 进行分页
         Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), students);

@@ -11,6 +11,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.maku</groupId>
+			<artifactId>fast-boot-PM</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>net.maku</groupId>
 			<artifactId>fast-boot-system</artifactId>
 			<version>1.0.0</version>
 		</dependency>
