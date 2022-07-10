@@ -3,7 +3,7 @@ package net.maku.enterprise.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
 import net.maku.enterprise.dao.SysOrgPracPostDao;
-import net.maku.enterprise.dto.SysAllOrgPostEntity;
+import net.maku.enterprise.dto.SysAllOrgPostDto;
 import net.maku.enterprise.entity.SysOrgPracPostEntity;
 import net.maku.enterprise.service.SysOrgPracPostService;
 import net.maku.framework.common.service.impl.BaseServiceImpl;
@@ -70,8 +70,8 @@ public class SysOrgPracPostServiceImpl extends BaseServiceImpl<SysOrgPracPostDao
     }
 
     @Override
-    public List<SysAllOrgPostEntity> getAllOrgPost(){
-        List<SysAllOrgPostEntity> allOrgPost = sysOrgPracPostDao.getAllOrgPost();
+    public List<SysAllOrgPostDto> getAllOrgPost(){
+        List<SysAllOrgPostDto> allOrgPost = sysOrgPracPostDao.getAllOrgPost();
         return allOrgPost;
     }
 

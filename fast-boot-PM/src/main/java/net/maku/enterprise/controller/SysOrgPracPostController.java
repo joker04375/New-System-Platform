@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import net.maku.enterprise.common.OrgConstants;
 import net.maku.enterprise.common.OrgUtils;
 import net.maku.enterprise.entity.SysOrgPracPostEntity;
-import net.maku.enterprise.dto.SysAllOrgPostEntity;
+import net.maku.enterprise.dto.SysAllOrgPostDto;
 import net.maku.enterprise.service.SysOrgPracPostService;
 import net.maku.enterprise.vo.ConditionQuery;
 import net.maku.framework.common.page.PageResult;
@@ -100,11 +100,11 @@ public class SysOrgPracPostController {
 
     @PostMapping("post/all")
     @Operation(summary = "所有企业的所有岗位信息")
-    public Result<PageResult<SysAllOrgPostEntity>> getAllPost(@RequestBody Query query)
+    public Result<PageResult<SysAllOrgPostDto>> getAllPost(@RequestBody Query query)
     {
-        List<SysAllOrgPostEntity> allOrgPost = sysOrgPracPostService.getAllOrgPost();
+        List<SysAllOrgPostDto> allOrgPost = sysOrgPracPostService.getAllOrgPost();
         Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), allOrgPost);
-        PageResult<SysAllOrgPostEntity> result = new PageResult<>(pages.getRecords(), pages.getTotal());
+        PageResult<SysAllOrgPostDto> result = new PageResult<>(pages.getRecords(), pages.getTotal());
         return Result.ok(result);
     }
 

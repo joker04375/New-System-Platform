@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SysAllOrgPracEntity {
+public class SysAllOrgPracDto {
 
     /**
      *企业id

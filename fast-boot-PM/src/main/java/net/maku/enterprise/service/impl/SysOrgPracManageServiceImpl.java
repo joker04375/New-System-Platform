@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
 import net.maku.enterprise.dao.SysOrgPracManageDao;
 import net.maku.enterprise.entity.SysOrgPracManageEntity;
-import net.maku.enterprise.dto.SysAllOrgPracEntity;
+import net.maku.enterprise.dto.SysAllOrgPracDto;
 import net.maku.enterprise.service.SysOrgPracManageService;
 import net.maku.framework.common.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
@@ -68,7 +68,7 @@ public class SysOrgPracManageServiceImpl extends BaseServiceImpl<SysOrgPracManag
     }
 
     @Override
-    public List<SysAllOrgPracEntity> getAllPrac() {
+    public List<SysAllOrgPracDto> getAllPrac() {
         return baseMapper.getAllPrac();
     }
 

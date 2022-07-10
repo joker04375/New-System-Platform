@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class SysAllOrgPostEntity {
+public class SysAllOrgPostDto {
     /**
      * 企业id
      */

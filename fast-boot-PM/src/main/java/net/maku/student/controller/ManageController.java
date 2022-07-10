@@ -3,7 +3,7 @@ package net.maku.student.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import net.maku.enterprise.dto.SysAllOrgPostEntity;
+import net.maku.enterprise.dto.SysAllOrgPostDto;
 import net.maku.enterprise.service.SysOrgPracPostService;
 import net.maku.framework.common.page.PageResult;
 import net.maku.framework.common.query.Query;
@@ -33,12 +33,12 @@ public class ManageController {
      * @return
      */
     @RequestMapping("post")
-    public Result<PageResult<SysAllOrgPostEntity>> selectAllPost(@Valid Query query){
-        List<SysAllOrgPostEntity> allOrgPost = sysOrgPracPostService.getAllOrgPost();
+    public Result<PageResult<SysAllOrgPostDto>> selectAllPost(@Valid Query query){
+        List<SysAllOrgPostDto> allOrgPost = sysOrgPracPostService.getAllOrgPost();
 
         //进行分页
         Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), allOrgPost);
-        PageResult<SysAllOrgPostEntity> pageResult = new PageResult<SysAllOrgPostEntity>(pages.getRecords(), pages.getTotal());
+        PageResult<SysAllOrgPostDto> pageResult = new PageResult<SysAllOrgPostDto>(pages.getRecords(), pages.getTotal());
 
         return Result.ok(pageResult);
     }

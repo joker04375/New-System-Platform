@@ -8,7 +8,7 @@ import net.maku.enterprise.entity.SysOrgPracFileEntity;
 import net.maku.enterprise.entity.SysOrgPracInterviewEntity;
 import net.maku.enterprise.entity.SysOrgPracPostEntity;
 import net.maku.enterprise.entity.SysOrgPracStuEntity;
-import net.maku.enterprise.dto.SysAllOrgPracEntity;
+import net.maku.enterprise.dto.SysAllOrgPracDto;
 import net.maku.enterprise.service.*;
 import net.maku.framework.common.page.PageResult;
 import net.maku.framework.common.query.Query;
@@ -47,17 +47,17 @@ public class CollegePracMangerController {
 
     @GetMapping("home")
     @Operation(summary = "查看所有实习项目")
-    public Result<PageResult<SysAllOrgPracEntity>> getAllPracsByStatus(Query query) {
-        List<SysAllOrgPracEntity> allPrac = sysOrgPracManageService.getAllPrac();
+    public Result<PageResult<SysAllOrgPracDto>> getAllPracsByStatus(Query query) {
+        List<SysAllOrgPracDto> allPrac = sysOrgPracManageService.getAllPrac();
         // 进行分页
         Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), allPrac);
-        PageResult<SysAllOrgPracEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
+        PageResult<SysAllOrgPracDto> page = new PageResult<>(pages.getRecords(), pages.getTotal());
         return Result.ok(page);
     }
 
 
     @GetMapping("search")
-    public Result<PageResult<SysAllOrgPracEntity>> getPracsByConditions(@RequestParam(required = false) Map<String,Object> conditions) {
+    public Result<PageResult<SysAllOrgPracDto>> getPracsByConditions(@RequestParam(required = false) Map<String,Object> conditions) {
 
         return null;
     }
