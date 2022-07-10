@@ -1,7 +1,7 @@
 package net.maku.enterprise.service;
 
 
-import net.maku.enterprise.entity.interation.SysAllOrgPostEntity;
+import net.maku.enterprise.dto.SysAllOrgPostDto;
 import net.maku.enterprise.entity.SysOrgPracPostEntity;
 import net.maku.framework.common.service.BaseService;
 
@@ -22,7 +22,7 @@ public interface SysOrgPracPostService extends BaseService<SysOrgPracPostEntity>
      *给学生
      * @return
      */
-    List<SysAllOrgPostEntity> getAllOrgPost();
+    List<SysAllOrgPostDto> getAllOrgPost();
 
     /**
      * 学院审核岗位

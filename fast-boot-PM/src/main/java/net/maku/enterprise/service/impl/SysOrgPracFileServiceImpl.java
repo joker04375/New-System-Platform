@@ -2,7 +2,7 @@ package net.maku.enterprise.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
-import net.maku.enterprise.dao.SysOrgPracFileDAO;
+import net.maku.enterprise.dao.SysOrgPracFileDao;
 import net.maku.enterprise.entity.SysOrgPracFileEntity;
 import net.maku.enterprise.service.SysOrgPracFileService;
 import net.maku.framework.common.service.impl.BaseServiceImpl;
@@ -10,7 +10,6 @@ import net.maku.framework.common.utils.FileUtils;
 import net.maku.framework.common.utils.Result;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -18,8 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +30,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class SysOrgPracFileServiceImpl extends BaseServiceImpl<SysOrgPracFileDAO, SysOrgPracFileEntity>
+public class SysOrgPracFileServiceImpl extends BaseServiceImpl<SysOrgPracFileDao, SysOrgPracFileEntity>
         implements SysOrgPracFileService {
 
     @Override

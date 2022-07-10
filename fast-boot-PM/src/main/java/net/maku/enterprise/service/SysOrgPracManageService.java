@@ -1,7 +1,7 @@
 package net.maku.enterprise.service;
 
 import net.maku.enterprise.entity.SysOrgPracManageEntity;
-import net.maku.enterprise.entity.interation.SysAllOrgPracEntity;
+import net.maku.enterprise.dto.SysAllOrgPracDto;
 import net.maku.framework.common.service.BaseService;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public interface SysOrgPracManageService extends BaseService<SysOrgPracManageEnt
      * 给学生
      * @return
      */
-    List<SysAllOrgPracEntity> getAllPrac();
+    List<SysAllOrgPracDto> getAllPrac();
 
     Integer getAllPracNum(Long orgId);
 
