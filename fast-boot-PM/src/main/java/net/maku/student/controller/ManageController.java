@@ -3,7 +3,7 @@ package net.maku.student.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import net.maku.enterprise.entity.interation.SysAllOrgPostEntity;
+import net.maku.enterprise.dto.SysAllOrgPostEntity;
 import net.maku.enterprise.service.SysOrgPracPostService;
 import net.maku.framework.common.page.PageResult;
 import net.maku.framework.common.query.Query;

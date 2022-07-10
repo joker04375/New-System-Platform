@@ -1,4 +1,4 @@
-package net.maku.enterprise.entity.interation;
+package net.maku.enterprise.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

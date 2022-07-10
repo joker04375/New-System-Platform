@@ -1,7 +1,7 @@
 package net.maku.enterprise.service;
 
 import net.maku.enterprise.entity.SysOrgPracManageEntity;
-import net.maku.enterprise.entity.interation.SysAllOrgPracEntity;
+import net.maku.enterprise.dto.SysAllOrgPracEntity;
 import net.maku.framework.common.service.BaseService;
 
 import java.util.List;

@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import net.maku.enterprise.common.OrgConstants;
 import net.maku.enterprise.common.OrgUtils;
 import net.maku.enterprise.entity.SysOrgPracPostEntity;
-import net.maku.enterprise.entity.interation.SysAllOrgPostEntity;
+import net.maku.enterprise.dto.SysAllOrgPostEntity;
 import net.maku.enterprise.service.SysOrgPracPostService;
 import net.maku.enterprise.vo.ConditionQuery;
 import net.maku.framework.common.page.PageResult;

@@ -1,7 +1,7 @@
 package net.maku.enterprise.service;
 
 
-import net.maku.enterprise.entity.interation.SysAllOrgPostEntity;
+import net.maku.enterprise.dto.SysAllOrgPostEntity;
 import net.maku.enterprise.entity.SysOrgPracPostEntity;
 import net.maku.framework.common.service.BaseService;
 

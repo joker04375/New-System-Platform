@@ -1,6 +1,5 @@
-package net.maku.enterprise.entity.interation;
+package net.maku.enterprise.dto;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

@@ -8,7 +8,7 @@ import net.maku.enterprise.entity.SysOrgPracFileEntity;
 import net.maku.enterprise.entity.SysOrgPracInterviewEntity;
 import net.maku.enterprise.entity.SysOrgPracPostEntity;
 import net.maku.enterprise.entity.SysOrgPracStuEntity;
-import net.maku.enterprise.entity.interation.SysAllOrgPracEntity;
+import net.maku.enterprise.dto.SysAllOrgPracEntity;
 import net.maku.enterprise.service.*;
 import net.maku.framework.common.page.PageResult;
 import net.maku.framework.common.query.Query;
