@@ -2,7 +2,6 @@ package net.maku.enterprise.service;
 
 import net.maku.enterprise.entity.SysOrgDetailsEntity;
 import net.maku.framework.common.service.BaseService;
-import net.maku.system.vo.SysOrgVO;
 
 import java.util.List;
 

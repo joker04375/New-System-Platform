@@ -8,8 +8,8 @@ import net.maku.system.vo.SysDictTypeVO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-09T23:05:50+0800",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 16.0.2 (Oracle Corporation)"
+    date = "2022-07-10T12:22:28+0800",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_332 (Amazon.com Inc.)"
 )
 public class SysDictTypeConvertImpl implements SysDictTypeConvert {
 

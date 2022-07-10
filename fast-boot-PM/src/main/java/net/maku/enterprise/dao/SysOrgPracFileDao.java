@@ -11,5 +11,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 
 @Mapper
-public interface SysOrgPracFileDAO extends BaseDao<SysOrgPracFileEntity> {
+public interface SysOrgPracFileDao extends BaseDao<SysOrgPracFileEntity> {
 }
