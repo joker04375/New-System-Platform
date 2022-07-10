@@ -4,7 +4,7 @@
 <mapper namespace="net.maku.enterprise.dao.SysOrgPracManageDao">
 
     <!--lzm-->
-    <select id="getAllPrac" resultType="net.maku.enterprise.entity.interation.SysAllOrgPracEntity">
+    <select id="getAllPrac" resultType="net.maku.enterprise.dto.SysAllOrgPracDto">
         SELECT detail.org_id,detail.prac_id,detail.prac_intro,detail.prac_addr,detail.prac_num,detail.prac_status,detail.prac_name,org.name
         FROM `sys_org_prac_manage` AS detail
                  LEFT JOIN `sys_org_details` AS org
@@ -13,7 +13,7 @@
     </select>
 
     <!--lzm-->
-    <select id="getPracsByConditions" parameterType="java.util.Map" resultType="net.maku.enterprise.entity.interation.SysAllOrgPracEntity">
+    <select id="getPracsByConditions" parameterType="java.util.Map" resultType="net.maku.enterprise.dto.SysAllOrgPracDto">
         SELECT detail.org_id,detail.prac_id,detail.prac_intro,detail.prac_addr,detail.prac_num,detail.prac_status,detail.prac_name,org.name
         FROM `sys_org_prac_manage` AS detail
         LEFT JOIN `sys_org_details` AS org
@@ -33,7 +33,7 @@
     </select>
 
     <!--lzm-->
-    <select id="getByPracIds" parameterType="java.util.List" resultType="net.maku.enterprise.entity.interation.SysAllOrgPracEntity">
+    <select id="getByPracIds" parameterType="java.util.List" resultType="net.maku.enterprise.dto.SysAllOrgPracDto">
         SELECT detail.org_id,detail.prac_id,detail.prac_intro,detail.prac_addr,detail.prac_num,detail.prac_status,detail.prac_name,org.name
         FROM `sys_org_prac_manage` AS detail
                  WHERE detail.prac_id IN
@@ -43,5 +43,9 @@
                  LEFT JOIN `sys_org_details` AS org
                            ON detail.org_id = org.org_id
         ORDER BY detail.prac_status DESC
+    </select>
+
+    <select id="getByOrgAndPracId" resultType="net.maku.enterprise.dto.SysAllOrgPracDto">
+
     </select>
 </mapper>

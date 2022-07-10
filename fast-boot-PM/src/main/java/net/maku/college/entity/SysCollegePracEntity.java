@@ -12,17 +12,17 @@ import net.maku.framework.common.entity.BaseEntity;
 @TableName("sys_college_prac")
 public class SysCollegePracEntity extends BaseEntity {
     /**
-     * 企业id
+     * 学院id
      */
-    int collegeId;
+    long collegeId;
 
     /**
-     * 实习id
+     * 实习批次id
      */
     long timeId;
 
     /**
-     *  季度
+     *  实习名称
      */
     String quarter;
 

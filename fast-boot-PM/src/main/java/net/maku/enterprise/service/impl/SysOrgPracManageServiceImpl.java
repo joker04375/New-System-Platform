@@ -84,7 +84,7 @@ public class SysOrgPracManageServiceImpl extends BaseServiceImpl<SysOrgPracManag
      *  by lzm
      * */
     @Override
-    public List<SysAllOrgPracEntity> getPracsByConditions(Map<String, String> conditions) {
+    public List<SysAllOrgPracDto> getPracsByConditions(Map<String, String> conditions) {
         return baseMapper.getPracsByConditions(conditions);
     }
 
@@ -92,8 +92,16 @@ public class SysOrgPracManageServiceImpl extends BaseServiceImpl<SysOrgPracManag
      *  by lzm
      * */
     @Override
-    public List<SysAllOrgPracEntity> getByPracIds(List<Long> pracIds) {
+    public List<SysAllOrgPracDto> getByPracIds(List<Long> pracIds) {
         return baseMapper.getByPracIds(pracIds);
+    }
+
+    /*
+     *  by lzm
+     * */
+    @Override
+    public SysAllOrgPracDto getByOrgAndPracId(long orgId, long pracId) {
+        return baseMapper.getByOrgAndPracId(orgId, pracId);
     }
 
 

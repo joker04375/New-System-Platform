@@ -1,14 +1,14 @@
 package net.maku.college.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import net.maku.enterprise.entity.SysOrgPracFileEntity;
-import net.maku.enterprise.entity.SysOrgPracInterviewEntity;
-import net.maku.enterprise.entity.SysOrgPracPostEntity;
-import net.maku.enterprise.entity.SysOrgPracStuEntity;
-import net.maku.enterprise.entity.interation.SysAllOrgPracEntity;
+import net.maku.college.entity.SysCollegePracEntity;
+import net.maku.college.service.SysCollegePracService;
+import net.maku.enterprise.dto.SysAllOrgPracDto;
+import net.maku.enterprise.entity.*;
 import net.maku.enterprise.service.*;
 import net.maku.framework.common.page.PageResult;
 import net.maku.framework.common.query.Query;
@@ -16,6 +16,8 @@ import net.maku.framework.common.service.SysPublicFileService;
 import net.maku.framework.common.utils.FileUtils;
 import net.maku.framework.common.utils.PageListUtils;
 import net.maku.framework.common.utils.Result;
+import net.maku.student.entity.SysStuPostEntity;
+import net.maku.student.service.SysStuManageService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,31 +47,39 @@ public class CollegePracMangerController {
 
     private final SysPublicFileService sysPublicFileService;
 
-    private final SysCollegePracService sysCollegePracService;
+    private final SysOrgCollegePracService sysOrgCollegePracService;
 
     private final SysStuManageService sysStuManageService;
 
+    private final SysCollegePracService sysCollegePracService;
+
     @GetMapping("specificTimePracs")
     @Operation(summary = "查看某一学院某一批次下所有实习项目")
-    public Result<PageResult<SysAllOrgPracEntity>> getAllPracsByCollegeAndTime(Query query,int collegeId,int timeId) {
+    public Result<PageResult<SysAllOrgPracDto>> getAllPracsByCollegeAndTime(Query query, long collegeId, long timeId) {
         // 中间表通过CollegeId和TimeId查询到这一学院这一批次下的所有实习id
-        List<Long> pracIds = sysCollegeEnterpriseService.getByCollegeAndTime(collegeId,timeId);
-        List<SysAllOrgPracEntity> pracs = sysOrgPracManageService.getByPracIds(pracIds);
+        List<SysOrgCollegePracEntity> pracsInfo = sysOrgCollegePracService.selectOrgByCollegeIdAndTimeID(collegeId, timeId);
+        List<SysAllOrgPracDto> result = new ArrayList<>();
+        for (SysOrgCollegePracEntity info : pracsInfo) {
+            result.add(sysOrgPracManageService.getByOrgAndPracId(info.getOrgId(),info.getOrgPracId()));
+        }
         // 进行分页
-        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), pracs);
-        PageResult<SysAllOrgPracEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
+        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), result);
+        PageResult<SysAllOrgPracDto> page = new PageResult<>(pages.getRecords(), pages.getTotal());
         return Result.ok(page);
     }
 
     @GetMapping("specificimeStus")
     @Operation(summary = "查看某一学院某一批次下所有实习学生")
-    public Result<PageResult<SysOrgPracStuEntity>> getAllStusByCollegeAndTime(Query query,int collegeId,int timeId) {
+    public Result<PageResult<SysOrgPracStuEntity>> getAllStusByCollegeAndTime(Query query,long collegeId,long timeId) {
         // 中间表通过CollegeId和TimeId查询到这一学院这一批次下的所有实习id
-        List<Long> pracIds = sysCollegeEnterpriseService.getByCollegeAndTime(collegeId,timeId);
-        List<SysOrgPracStuEntity> stus = sysOrgPracStuService.getAllPracStuMessage(orgId, pracId);
+        List<SysOrgCollegePracEntity> pracsInfo = sysOrgCollegePracService.selectOrgByCollegeIdAndTimeID(collegeId,timeId);
+        List<SysOrgPracStuEntity> result = new ArrayList<>();
+        for (SysOrgCollegePracEntity info : pracsInfo) {
+            result.addAll(sysOrgPracStuService.getAllPracStuMessage(info.getOrgId(), info.getOrgPracId()));
+        }
         // 进行分页
-        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), allPrac);
-        PageResult<SysAllOrgPracEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
+        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), result);
+        PageResult<SysOrgPracStuEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
         return Result.ok(page);
     }
 
@@ -81,11 +91,11 @@ public class CollegePracMangerController {
      * */
     @GetMapping("search")
     @Operation(summary = "实习页面根据条件进行查询")
-    public Result<PageResult<SysAllOrgPracEntity>> getPracsByConditions(Query query,@RequestParam(required = false) Map<String,String> conditions) {
-        List<SysAllOrgPracEntity> pracs = sysOrgPracManageService.getPracsByConditions(conditions);
+    public Result<PageResult<SysAllOrgPracDto>> getPracsByConditions(Query query,@RequestParam(required = false) Map<String,String> conditions) {
+        List<SysAllOrgPracDto> pracs = sysOrgPracManageService.getPracsByConditions(conditions);
         // 进行分页
         Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), pracs);
-        PageResult<SysAllOrgPracEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
+        PageResult<SysAllOrgPracDto> page = new PageResult<>(pages.getRecords(), pages.getTotal());
         return Result.ok(page);
     }
 
@@ -129,14 +139,20 @@ public class CollegePracMangerController {
     @GetMapping("home")
     @Operation(summary = "查看该学院下发布的实习批次（根据年份排序）")
     public Result<List<SysCollegePracEntity>> getAllPracsByStatus(Query query) {
-        for (SysCollegePracEntity collegePrac : sysCollegePracService.getAllOrderByYear()) {
-            int collegeId = collegePrac.getCollegeId();
+        List<SysCollegePracEntity> orgPracs = sysCollegePracService.getAllOrderByYear();
+        for (SysCollegePracEntity collegePrac : orgPracs) {
+            long collegeId = collegePrac.getCollegeId();
             long timeId = collegePrac.getTimeId();
             // 中间表通过CollegeId和TimeId查询到这一学院这一批次下的所有实习id
-            List<long> pracIds = sysCollegeEnterpriseService.getByCollegeAndTime(collegeId,timeId);
+            List<SysOrgCollegePracEntity> pracsInfo = sysOrgCollegePracService.selectOrgByCollegeIdAndTimeID(collegeId, timeId);
+            List<Long> pracIds = new ArrayList<>();
+            for (SysOrgCollegePracEntity pracEntity : pracsInfo) {
+                pracIds.add(pracEntity.getOrgPracId());
+            }
             long count = sysStuManageService.count(new QueryWrapper<SysStuPostEntity>().in("prac_id", pracIds));
             collegePrac.setStuNum(count);
         }
+        return Result.ok(orgPracs);
     }
 
 
