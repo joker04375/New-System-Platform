@@ -33,6 +33,8 @@ public class CollegeFileController {
     private final SysCollegeFileService sysCollegeFileService;
 
     private final SysCollegePatternFileService sysCollegePatternFileService;
+    
+    private final SysPublicFileService sysPublicFileService;
 
 //    @PostMapping("/uploadTemplate")
 //    @Operation(summary = "上传模板文件，待企业审批（审批后将passed字段设置为1）")
