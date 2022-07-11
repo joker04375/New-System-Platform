@@ -6,13 +6,12 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import net.maku.student.entity.SysStuResumeEntity;
 import net.maku.framework.common.utils.Result;
 import net.maku.framework.security.user.SecurityUser;
+import net.maku.student.entity.SysStuResumeEntity;
 import net.maku.student.service.SysStuResumeService;
 import net.maku.student.vo.SysStuResumeVO;
 import org.springframework.web.bind.annotation.*;
-
 
 
 @RestController
@@ -27,7 +26,6 @@ public class ResumeController {
      * @return
      */
     @GetMapping("model")
-//    @PreAuthorize("hasAnyAuthority('sys:stu:resume')")
     public Result selectResume(){
         SysStuResumeEntity stuResumeEntity = sysStuResumeService.selectByUserId(SecurityUser.getUserId());
         if(ObjectUtil.isEmpty(stuResumeEntity)||stuResumeEntity==null){
@@ -50,8 +48,8 @@ public class ResumeController {
         LambdaQueryWrapper<SysStuResumeEntity> queryWrapper = new LambdaQueryWrapper<>();
         Long userId = SecurityUser.getUserId();
 
-        queryWrapper.eq(SysStuResumeEntity::getUserId,userId);
-        sysStuResume.setUserId(userId);
+        queryWrapper.eq(SysStuResumeEntity::getStuId,userId);
+        sysStuResume.setStuId(userId);
 
         sysStuResumeService.saveOrUpdate(sysStuResume,queryWrapper);
 
