@@ -45,6 +45,7 @@
         ORDER BY detail.prac_status DESC
     </select>
 
+    <!--lzm-->
     <select id="getByOrgAndPracId" resultType="net.maku.enterprise.dto.SysAllOrgPracDto">
         SELECT detail.org_id,detail.prac_id,detail.prac_intro,detail.prac_addr,detail.prac_num,detail.prac_status,detail.prac_name,org.name
         FROM `sys_org_prac_manage` AS detail
