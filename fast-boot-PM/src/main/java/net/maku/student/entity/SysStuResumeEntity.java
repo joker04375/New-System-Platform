@@ -12,7 +12,7 @@ public class SysStuResumeEntity extends BaseEntity {
     /**
      * 用户id
      */
-    private Long userId;
+    private Long stuId;
 
     /**
      * 姓名

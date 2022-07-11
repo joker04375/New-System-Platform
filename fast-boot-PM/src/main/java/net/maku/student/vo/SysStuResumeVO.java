@@ -5,6 +5,11 @@ import lombok.Data;
 @Data
 public class SysStuResumeVO {
     /**
+     * 学生id
+     */
+    private Long stuId;
+
+    /**
      * 姓名
      */
     private String name;

@@ -1,7 +1,8 @@
 package net.maku.student.service;
 
-import net.maku.student.entity.SysStuResumeEntity;
+
 import net.maku.framework.common.service.BaseService;
+import net.maku.student.entity.SysStuResumeEntity;
 
 public interface SysStuResumeService extends BaseService<SysStuResumeEntity> {
     /**
