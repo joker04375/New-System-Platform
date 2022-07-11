@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
 
-@Component
 public class FileUtils {
 
     public static final String rootPath = "C://Users/kameh/Desktop/leo";
