@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import net.maku.enterprise.dto.SysStuPracDetailDto;
 import net.maku.college.entity.SysCollegePracEntity;
 import net.maku.college.service.SysCollegePracService;
 import net.maku.enterprise.dto.SysAllOrgPracDto;
@@ -43,10 +44,6 @@ public class CollegePracMangerController {
 
     private final SysOrgPracInterviewService sysOrgPracInterviewService;
 
-    private final SysOrgPracFileService sysOrgPracFileService;
-
-    private final SysPublicFileService sysPublicFileService;
-
     private final SysOrgCollegePracService sysOrgCollegePracService;
 
     private final SysStuManageService sysStuManageService;
@@ -68,18 +65,18 @@ public class CollegePracMangerController {
         return Result.ok(page);
     }
 
-    @GetMapping("specificimeStus")
+    @GetMapping("specificTimeStus")
     @Operation(summary = "查看某一学院某一批次下所有实习学生")
-    public Result<PageResult<SysOrgPracStuEntity>> getAllStusByCollegeAndTime(Query query,long collegeId,long timeId) {
-        // 中间表通过CollegeId和TimeId查询到这一学院这一批次下的所有实习id
+    public Result<PageResult<SysStuPracDetailDto>> getAllStusByCollegeAndTime(Query query,long collegeId,long timeId) {
+        // 中间表通过CollegeId和TimeId查询到这一学院这一批次下的所有实习id以及对应的学院id
         List<SysOrgCollegePracEntity> pracsInfo = sysOrgCollegePracService.selectOrgByCollegeIdAndTimeID(collegeId,timeId);
-        List<SysOrgPracStuEntity> result = new ArrayList<>();
+        List<SysStuPracDetailDto> result = new ArrayList<>();
         for (SysOrgCollegePracEntity info : pracsInfo) {
-            result.addAll(sysOrgPracStuService.getAllPracStuMessage(info.getOrgId(), info.getOrgPracId()));
+            result.addAll(sysOrgPracStuService.getAllStuPracByOrgAndPracId(info.getOrgId(), info.getOrgPracId()));
         }
         // 进行分页
         Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), result);
-        PageResult<SysOrgPracStuEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
+        PageResult<SysStuPracDetailDto> page = new PageResult<>(pages.getRecords(), pages.getTotal());
         return Result.ok(page);
     }
 
@@ -87,15 +84,62 @@ public class CollegePracMangerController {
      * Prams:
      *   year:年份
      *   name:公司名称
-     *   query:查询语句
+     *   query:查询语句（根据实习名称查询）
      * */
-    @GetMapping("search")
-    @Operation(summary = "实习页面根据条件进行查询")
+//    @GetMapping("search")
+//    @Operation(summary = "实习批次页面下根据条件进行查询")
+//    public Result<PageResult<SysAllOrgPracDto>> getPracsByConditions(Query query,@RequestParam(required = false) Map<String,String> conditions) {
+//        List<SysAllOrgPracDto> pracs = sysOrgPracManageService.getPracsByConditions(conditions);
+//        // 进行分页
+//        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), pracs);
+//        PageResult<SysAllOrgPracDto> page = new PageResult<>(pages.getRecords(), pages.getTotal());
+//        return Result.ok(page);
+//    }
+
+    /*
+     * Prams:
+     *   collegeId:学院id (一定要传)
+     *   timeId:实习批次id (一定要传)
+     *   query:查询语句（根据实习名称查询）
+     * */
+    @GetMapping("searchPrac")
+    @Operation(summary = "实习批次页面下根据条件进行查询")
     public Result<PageResult<SysAllOrgPracDto>> getPracsByConditions(Query query,@RequestParam(required = false) Map<String,String> conditions) {
-        List<SysAllOrgPracDto> pracs = sysOrgPracManageService.getPracsByConditions(conditions);
+        List<SysOrgCollegePracEntity> pracsInfo = sysOrgCollegePracService.selectOrgByCollegeIdAndTimeID(Long.parseLong(conditions.get("collegeId")),Long.parseLong(conditions.get("timeId")));
+        List<SysAllOrgPracDto> result = new ArrayList<>();
+        for (SysOrgCollegePracEntity pracEntity : pracsInfo) {
+            conditions.put("orgId",String.valueOf(pracEntity.getOrgId()));
+            conditions.put("pracId",String.valueOf(pracEntity.getOrgPracId()));
+            List<SysAllOrgPracDto> pracs = sysOrgPracManageService.getPracsByConditions(conditions);
+            result.addAll(pracs);
+        }
         // 进行分页
-        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), pracs);
+        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), result);
         PageResult<SysAllOrgPracDto> page = new PageResult<>(pages.getRecords(), pages.getTotal());
+        return Result.ok(page);
+    }
+
+    /*
+     * Prams:
+     *   collegeId:学院id (一定要传)
+     *   timeId:实习批次id (一定要传)
+     *   stuId:学号（模糊）
+     *   stuName:名字（模糊）
+     * */
+    @GetMapping("searchStu")
+    @Operation(summary = "实习批次全体学生管理页面下根据条件进行查询")
+    public Result<PageResult<SysOrgPracStuEntity>> getStusByConditions(Query query,@RequestParam(required = false) Map<String,String> conditions) {
+        List<SysOrgCollegePracEntity> pracsInfo = sysOrgCollegePracService.selectOrgByCollegeIdAndTimeID(Long.parseLong(conditions.get("collegeId")),Long.parseLong(conditions.get("timeId")));
+        List<SysOrgPracStuEntity> result = new ArrayList<>();
+        for (SysOrgCollegePracEntity pracEntity : pracsInfo) {
+            conditions.put("orgId",String.valueOf(pracEntity.getOrgId()));
+            conditions.put("pracId",String.valueOf(pracEntity.getOrgPracId()));
+            List<SysOrgPracStuEntity> stus = sysOrgPracStuService.getStusByConditions(conditions);
+            result.addAll(stus);
+        }
+        // 进行分页
+        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), result);
+        PageResult<SysOrgPracStuEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
         return Result.ok(page);
     }
 
@@ -106,20 +150,13 @@ public class CollegePracMangerController {
         return Result.ok(allPracPostMessage);
     }
 
-    @PutMapping("post/status/{id}/{status}")
-    @Operation(summary = "是否通过该企业实习项目中的岗位")
-    public Result<String> isAcceptPost(@PathVariable(name = "id") int id, @PathVariable(name = "status") int status){
-        sysOrgPracPostService.changePostStatus(id,status);
-        return Result.ok("success");
-    }
-
     @GetMapping("post/stu/{orgId}/{pracId}")
-    @Operation(summary = "对企业实习项目中学生的查看")
+    @Operation(summary = "对企业实习项目中全部学生的查看")
     public Result<PageResult<SysOrgPracStuEntity>> getAllStuById(Query query, @PathVariable(name = "orgId") long orgId, @PathVariable(name = "pracId") long pracId) {
         List<SysOrgPracStuEntity> resultList = new ArrayList<>();
-        // 对学生状态继续过滤（在实习中还是已结束）
+        // 对学生状态继续过滤（只选择在实习中和已经实习结束的情况）
         for (SysOrgPracStuEntity stuEntity : sysOrgPracStuService.getAllPracStuMessage(orgId, pracId)) {
-            if(stuEntity.getStatus()== -2 || stuEntity.getStatus() == 2) {
+            if(stuEntity.getStatus() == 4 || stuEntity.getStatus() == 5) {
                 resultList.add(stuEntity);
             }
         }
@@ -127,6 +164,19 @@ public class CollegePracMangerController {
         Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), resultList);
         PageResult<SysOrgPracStuEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
         return Result.ok(page);
+    }
+
+    @GetMapping("specificPost/stu")
+    public Result<List<SysOrgPracStuEntity>> getStuByPostId(long orgId,long pracId,long postId) {
+        List<SysOrgPracStuEntity> allStus = sysOrgPracStuService.getAllStuPracByOrgAndPracAndPostId(orgId, pracId, postId);
+        return Result.ok(allStus);
+    }
+
+    @PutMapping("post/status/{id}/{status}")
+    @Operation(summary = "是否通过该企业实习项目中的岗位")
+    public Result<String> isAcceptPost(@PathVariable(name = "id") int id, @PathVariable(name = "status") int status){
+        sysOrgPracPostService.changePostStatus(id,status);
+        return Result.ok("success");
     }
 
     @GetMapping("post/interview/{orgId}/{pracId}")
@@ -155,60 +205,11 @@ public class CollegePracMangerController {
         return Result.ok(orgPracs);
     }
 
-
-
     @PostMapping("postInternship")
     @Operation(summary = "学院发表单期实习")
     public Result<String> postInternship(@RequestParam("year") String year, @RequestParam("name") String quarter,@RequestParam("college_id") int collegeId) {
         sysCollegePracService.postInternship(year,quarter,collegeId);
         return Result.ok("Success");
-    }
-
-    @PostMapping("post/fileUpload/{orgId}/{pracId}")
-    @Operation(summary = "上传公共文件")
-    public Result<String> submitForm(@RequestParam("file") MultipartFile file,
-                                     @RequestParam("fileName") String fileName,
-                                     @RequestParam("fileType") String fileType,
-                                     @RequestParam("uploader") String uploader,
-                                     @RequestParam("uploadTime") String uploadTime,
-                                     @PathVariable("orgId") long orgId,
-                                     @PathVariable("pracId") long pracId
-                                     ) {
-        // 上传文件至本地，返回存储路径
-        String storagePath = FileUtils.uploadCommonFile(file);
-
-        SysOrgPracFileEntity sysOrgPracFileEntity = new SysOrgPracFileEntity();
-
-        sysOrgPracFileEntity.setFileAddr(storagePath);
-        sysOrgPracFileEntity.setFileName(fileName);
-        sysOrgPracFileEntity.setFileType(fileType);
-        sysOrgPracFileEntity.setUploader(uploader);
-        // 1 代表公共文件(直接设置为1，这个接口是用来上传公共文件的)
-        sysOrgPracFileEntity.setIsCommon(1);
-
-            // 作用在时间戳
-        //long timeLong = Long.parseLong(uploadTime);
-        //date = simpleDateFormat.parse(simpleDateFormat.format(timeLong));
-        //sysOrgPracFileEntity.setUploadTime(new java.sql.Date(date.getTime()));
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
-        try {
-            date = simpleDateFormat.parse(uploadTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        java.sql.Timestamp timestamp = new Timestamp(date.getTime());
-        sysOrgPracFileEntity.setUploadTime(String.valueOf(timestamp));
-
-        sysOrgPracFileEntity.setOrgId(orgId);
-        sysOrgPracFileEntity.setPracId(pracId);
-
-        sysOrgPracFileService.save(sysOrgPracFileEntity);
-
-
-        return Result.ok("success");
     }
 
 }

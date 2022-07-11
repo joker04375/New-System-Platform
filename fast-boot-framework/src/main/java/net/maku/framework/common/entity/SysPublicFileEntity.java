@@ -29,44 +29,57 @@ public class SysPublicFileEntity extends BaseEntity{
     String fileUrl;
 
     /*
+     * 文件类型
+     * */
+    @TableField("file_type")
+    String fileType;
+
+    /*
      * 文件Id
      * */
     @TableField("file_id")
     String fileId;
 
     /*
-     * 是否为公共文件
-     * */
-    @TableField("is_common")
-    int isCommon;
-
-    /*
-     * 学生可用（0：不可用；1：可用）
-     * */
-    @TableField("student")
-    int student;
-
-    /*
-     * 企业可用（0：不可用；1：可用）
-     * */
-    @TableField("enterprise")
-    int enterprise;
-
-    /*
-     * 学院可用（0：不可用；1：可用）
-     * */
-    @TableField("college")
-    int college;
-
-    /*
-     * 该文件是否通过（主要是用来进行企业对学院上传模板的审批）
-     * */
-    @TableField("passed")
-    int passed;
-
-    /*
      * 文件名称（可为NULL）
      * */
     @TableField("file_name")
     String fileName;
+
+    /*
+     * 是否为学生上传（1:是；0:不是）
+     * */
+    @TableField("is_stu")
+    int isStu;
+
+    /*
+     * 学生id
+     * */
+    @TableField("stu_id")
+    long stuId;
+
+    /*
+     * 学院id
+     * */
+    @TableField("college_id")
+    long collegeId;
+
+    /*
+     * 学院实习id
+     * */
+    @TableField("time_id")
+    long timeId;
+
+    /*
+     * 公司是否可见
+     * */
+    @TableField("is_org_read")
+    long isOrgRead;
+
+    /*
+     * 该文件是否通过（主要是用来进行企业对学院上传模板的审批）（0:待审批；1：通过；2：不通过）
+     * */
+    @TableField("passed")
+    int passed;
+
 }

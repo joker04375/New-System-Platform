@@ -1,10 +1,12 @@
 package net.maku.enterprise.service;
 
+import net.maku.enterprise.dao.SysOrgPracStuDao;
+import net.maku.enterprise.dto.SysStuPracDetailDto;
 import net.maku.enterprise.entity.SysOrgPracStuEntity;
 import net.maku.framework.common.service.BaseService;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SysOrgPracStuService extends BaseService<SysOrgPracStuEntity> {
 
@@ -27,5 +29,20 @@ public interface SysOrgPracStuService extends BaseService<SysOrgPracStuEntity> {
      * author:lzm
      */
     List<SysOrgPracStuEntity> getAllStusByPracs(List<Long> pracId);
+
+    /**
+     * author:lzm
+     */
+    List<SysStuPracDetailDto> getAllStuPracByOrgAndPracId(Long orgId, Long pracId);
+
+    /**
+     * author:lzm
+     */
+    List<SysOrgPracStuEntity> getAllStuPracByOrgAndPracAndPostId(Long orgId, Long pracId, Long postId);
+
+    /**
+     * author:lzm
+     */
+    List<SysOrgPracStuEntity> getStusByConditions(Map<String,String> map);
 
 }

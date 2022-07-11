@@ -48,7 +48,7 @@ public class SysUserEntity extends BaseEntity {
      */
     private String mobile;
     /**
-     * 机构ID
+     * 机构ID / 学院ID
      */
     private Long orgId;
     /**

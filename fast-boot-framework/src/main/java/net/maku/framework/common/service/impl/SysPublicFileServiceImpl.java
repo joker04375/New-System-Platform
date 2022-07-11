@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -27,7 +28,7 @@ public class SysPublicFileServiceImpl extends BaseServiceImpl<SysPublicFileDao,S
     }
 
     @Override
-    public String CreatePublicFile(int orgId, int pracId, MultipartFile file) {
+    public String CreatePublicFile(MultipartFile file) {
 
         File fileDir = new File(rootPath);
         if (!fileDir.exists() && !fileDir.isDirectory())
@@ -42,12 +43,11 @@ public class SysPublicFileServiceImpl extends BaseServiceImpl<SysPublicFileDao,S
         }
 
         String fileId = UUID.randomUUID().toString();
-        SysPublicFileEntity fileEntity = new SysPublicFileEntity();
-        fileEntity.setFileId(fileId);
-        fileEntity.setFileUrl(storagePath);
-        fileEntity.setOrgId(orgId);
-        fileEntity.setPracId(pracId);
-        baseMapper.insert(fileEntity);
         return fileId;
+    }
+
+    @Override
+    public List<SysPublicFileEntity> getAllFileByStuAndCollegeAndTimeId(long stuId, long collegeId, long timeId) {
+        return baseMapper.selectList(new QueryWrapper<SysPublicFileEntity>().eq("stu_id",stuId).eq("college_id",collegeId).eq("time_id",timeId));
     }
 }

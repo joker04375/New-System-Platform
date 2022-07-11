@@ -62,7 +62,7 @@ public class SysOrgPracStuEntity extends BaseEntity {
   private String post;
 
   /**
-   *学生状态 -1为淘汰 0为报名中 1为正在进行本轮测试 2为通过本轮测试 3为已录取 4为正在实习
+   *学生状态 -1为淘汰 0为报名中 1为正在本轮测试 2为通过本轮测试,3为成功，4为正在实习，5为实习结束
    */
   private long status;
 

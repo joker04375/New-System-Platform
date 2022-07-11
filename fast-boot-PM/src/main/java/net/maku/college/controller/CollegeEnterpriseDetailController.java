@@ -5,13 +5,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.maku.enterprise.entity.SysOrgDetailsEntity;
+import net.maku.enterprise.entity.SysOrgPracManageEntity;
 import net.maku.enterprise.service.SysOrgDetailsService;
+import net.maku.enterprise.service.SysOrgPracManageService;
 import net.maku.framework.common.page.PageResult;
 import net.maku.framework.common.query.Query;
 import net.maku.framework.common.utils.PageListUtils;
 import net.maku.framework.common.utils.Result;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -19,6 +22,8 @@ import java.util.List;
 @Tag(name="企业管理")
 @AllArgsConstructor
 public class CollegeEnterpriseDetailController {
+    private final SysOrgPracManageService sysOrgPracManageService;
+
     private final SysOrgDetailsService sysOrgDetailsService;
 
     @GetMapping("home")
@@ -47,4 +52,17 @@ public class CollegeEnterpriseDetailController {
         PageResult<SysOrgDetailsEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
         return Result.ok(page);
     }
+
+    @GetMapping("detail/home/{orgId}")
+    @Operation(summary = "获取某个公司下的所有实行（按照时间排序）")
+    public Result<PageResult<SysOrgPracManageEntity>> getPracByOrgId(Query query, @PathVariable("orgId") long orgId) {
+        List<SysOrgPracManageEntity> allPracMessage = sysOrgPracManageService.getAllPracMessage(orgId);
+        allPracMessage.sort(Comparator.comparing(SysOrgPracManageEntity::getCreateTime));
+        // 进行分页
+        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), allPracMessage);
+        PageResult<SysOrgPracManageEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
+        return Result.ok(page);
+    }
+
+
 }

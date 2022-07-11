@@ -2,6 +2,7 @@ package net.maku.enterprise.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
+import net.maku.enterprise.dto.SysStuPracDetailDto;
 import net.maku.enterprise.common.OrgConstants;
 import net.maku.enterprise.dao.SysOrgPracStuDao;
 import net.maku.enterprise.entity.SysOrgPracStuEntity;
@@ -10,6 +11,7 @@ import net.maku.framework.common.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -103,6 +105,30 @@ public class SysOrgPracStuServiceImpl extends BaseServiceImpl<SysOrgPracStuDao, 
     @Override
     public List<SysOrgPracStuEntity> getAllStusByPracs(List<Long> pracId) {
         return baseMapper.getAllStusByPracs(pracId);
+    }
+
+    /**
+     * author:lzm
+     */
+    @Override
+    public List<SysStuPracDetailDto> getAllStuPracByOrgAndPracId(Long orgId, Long pracId) {
+        return baseMapper.getAllStuPracByOrgAndPracId(orgId, pracId);
+    }
+
+    /**
+     * author:lzm
+     */
+    @Override
+    public List<SysOrgPracStuEntity> getAllStuPracByOrgAndPracAndPostId(Long orgId, Long pracId, Long postId) {
+        return baseMapper.selectList(new QueryWrapper<SysOrgPracStuEntity>().eq("org_id",orgId).eq("prac_id",pracId).eq("post_id",postId));
+    }
+
+    /**
+     * author:lzm
+     */
+    @Override
+    public List<SysOrgPracStuEntity> getStusByConditions(Map<String, String> map) {
+        return null;
     }
 
    /* @Override

@@ -21,7 +21,7 @@ public class SysCollegePracServiceImpl extends BaseServiceImpl<SysCollegePracDao
         info.setQuarter(name);
         info.setStatus(1);
         info.setCollegeId(collegeId);
-        info.setPracId(OrgUtils.getIdByTime());
+        info.setTimeId(OrgUtils.getIdByTime());
         baseMapper.insert(info);
     }
 

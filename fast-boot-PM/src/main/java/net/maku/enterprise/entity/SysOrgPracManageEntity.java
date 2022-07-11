@@ -46,7 +46,6 @@ public class SysOrgPracManageEntity extends BaseEntity {
    */
   private long pracStatus;
 
-
   /**
    *实习简介
    */

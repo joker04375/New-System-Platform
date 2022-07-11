@@ -12,5 +12,6 @@ import java.util.List;
  * @author  LH
  */
 public interface SysOrgCollegePracService extends BaseService<SysOrgCollegePracEntity> {
+    // 学院用
     List<SysOrgCollegePracEntity> selectOrgByCollegeIdAndTimeID(Long collegeId, Long timeId);
 }

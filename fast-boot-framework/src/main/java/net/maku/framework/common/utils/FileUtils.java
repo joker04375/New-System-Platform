@@ -16,10 +16,9 @@ import java.net.URLEncoder;
 @Component
 public class FileUtils {
 
-    public SysPublicFileService sysPublicFileService;
-
     public static final String rootPath = "C://Users/kameh/Desktop/leo";
 
+    // 上传文件至服务器 返回的是存储的绝对地址
     public static String uploadCommonFile(MultipartFile file) {
         File fileDir = new File(rootPath);
         if (!fileDir.exists() && !fileDir.isDirectory())
@@ -37,11 +36,9 @@ public class FileUtils {
         return storagePath;
     }
 
-    public String DownLoadFile(int orgId, int pracId, String fileId, HttpServletResponse response) throws IOException {
-        SysPublicFileEntity fileEntity = sysPublicFileService.getFileById(orgId, pracId, fileId);
-
-        String path = fileEntity.getFileUrl();
-        File file = new File(path);
+    // 下载文件 只需要上传文件地址即可
+    public static void downLoadFile(String fileAddr, HttpServletResponse response) throws IOException {
+        File file = new File(fileAddr);
         // 获取文件名
         String filename = file.getName();
 
@@ -67,6 +64,5 @@ public class FileUtils {
         outputStream.write(buffer);
         outputStream.flush();
 
-        return path;
     }
 }

@@ -84,7 +84,7 @@ public class SysOrgPracManageServiceImpl extends BaseServiceImpl<SysOrgPracManag
      *  by lzm
      * */
     @Override
-    public List<SysAllOrgPracDto> getPracsByConditions(Map<String, String> conditions) {
+    public List<SysAllOrgPracDto> getPracsByConditions(Map<String,String> conditions) {
         return baseMapper.getPracsByConditions(conditions);
     }
 

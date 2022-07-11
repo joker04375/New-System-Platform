@@ -1,10 +1,12 @@
 package net.maku.enterprise.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import lombok.AllArgsConstructor;
 import net.maku.enterprise.dao.SysOrgCollegePracDao;
 import net.maku.enterprise.entity.SysOrgCollegePracEntity;
 import net.maku.enterprise.service.SysOrgCollegePracService;
 import net.maku.framework.common.service.impl.BaseServiceImpl;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,6 +15,8 @@ import java.util.List;
  * @author: 25652
  * @time: 2022/7/10 21:07
  */
+@Service
+@AllArgsConstructor
 public class SysOrgCollegePracServiceImpl extends BaseServiceImpl<SysOrgCollegePracDao, SysOrgCollegePracEntity>
         implements SysOrgCollegePracService {
     @Override
