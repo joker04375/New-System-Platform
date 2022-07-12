@@ -13,20 +13,10 @@ import net.maku.enterprise.entity.*;
 import net.maku.enterprise.service.*;
 import net.maku.framework.common.page.PageResult;
 import net.maku.framework.common.query.Query;
-import net.maku.framework.common.service.SysPublicFileService;
-import net.maku.framework.common.utils.FileUtils;
 import net.maku.framework.common.utils.PageListUtils;
 import net.maku.framework.common.utils.Result;
-import net.maku.student.entity.SysStuPostEntity;
-import net.maku.student.service.SysStuManageService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -45,8 +35,6 @@ public class CollegePracMangerController {
     private final SysOrgPracInterviewService sysOrgPracInterviewService;
 
     private final SysOrgCollegePracService sysOrgCollegePracService;
-
-    private final SysStuManageService sysStuManageService;
 
     private final SysCollegePracService sysCollegePracService;
 
@@ -199,7 +187,7 @@ public class CollegePracMangerController {
             for (SysOrgCollegePracEntity pracEntity : pracsInfo) {
                 pracIds.add(pracEntity.getOrgPracId());
             }
-            long count = sysStuManageService.count(new QueryWrapper<SysStuPostEntity>().in("prac_id", pracIds));
+            long count = sysOrgPracStuService.count(new QueryWrapper<SysOrgPracStuEntity>().in("status",3,4).in("prac_id",pracIds));
             collegePrac.setStuNum(count);
         }
         return Result.ok(orgPracs);
