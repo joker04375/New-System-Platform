@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("sys/stu/resume")
 @AllArgsConstructor
-@Tag(name="简历管理")
+@Tag(name="我的简历管理")
 public class ResumeController {
     private final SysStuResumeService sysStuResumeService;
 

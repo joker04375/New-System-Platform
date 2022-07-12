@@ -8,7 +8,6 @@ import net.maku.framework.security.user.SecurityUser;
 
 import net.maku.student.entity.SysStuPracTimeEntity;
 import net.maku.student.service.SysStuManageService;
-import net.maku.student.service.SysStuPracTimeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.List;
 @Tag(name = "我的实习管理")
 public class ManageController {
     private final SysStuManageService sysStuManageService;
-    private final SysStuPracTimeService sysStuPracService;
+//    private final SysStuPracTimeService sysStuPracService;
 
     /**
      * 实习申报
@@ -39,8 +38,9 @@ public class ManageController {
      */
     @GetMapping("myPracInfo")
     public Result getMyPracInfo() {
-        List<SysStuPracTimeEntity> sysStuPracEntities= sysStuPracService.getMyPracByUserId(SecurityUser.getUserId());
-        return Result.ok(sysStuPracEntities);
+//        List<SysStuPracTimeEntity> sysStuPracEntities= sysStuPracService.getMyPracByUserId(SecurityUser.getUserId());
+        List<SysStuPracTimeEntity> myPracByUserId = sysStuManageService.getMyPracByUserId(SecurityUser.getUserId());
+        return Result.ok(myPracByUserId);
     }
 
 

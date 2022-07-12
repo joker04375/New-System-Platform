@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.maku.student.dao.SysStuPracTimeDao">
+<mapper namespace="net.maku.student.dao.SysStuManageDao">
 
     <select id="getMyPracByUserId" resultType="net.maku.student.entity.SysStuPracTimeEntity">
         SELECT u.org_id,u.prac_id,u.post_id,u.stu_id,w.college_id AS col_id,w.time_id,u.post,v.name AS org_name, u.status

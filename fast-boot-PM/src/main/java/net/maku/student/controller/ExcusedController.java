@@ -92,7 +92,7 @@ public class ExcusedController {
         String file_addr;
         if(!file.isEmpty()){
             file_addr = FileUtils.uploadCommonFile(file);
-            sysStuExcusedEntity.setFile(file_addr);
+            sysStuExcusedEntity.setFileAddr(file_addr);
         }
 
         //String转Date

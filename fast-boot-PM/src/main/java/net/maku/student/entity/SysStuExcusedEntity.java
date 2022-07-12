@@ -103,9 +103,9 @@ public class SysStuExcusedEntity extends BaseEntity {
     private String excusedDetails;
 
     /**
-     * 相关附件
+     * 文件路径
      */
-    private String file;
+    private String fileAddr;
 
     /**
      * 状态

@@ -4,7 +4,7 @@
 <mapper namespace="net.maku.student.dao.SysStuFileDao">
 
 
-    <select id="selectModelFilesByStuId" resultType="net.maku.student.entity.ModelFileEntity">
+    <select id="selectModelFilesByStuId" resultType="net.maku.student.entity.CollegeModelFileEntity">
         select *
         from sys_college_pattern_file u
                  left join
@@ -14,6 +14,5 @@
                                  on u.org_id = v.org_id and u.prac_id = v.org_prac_id
               where  u.STATUS = 4 and u.stu_id = #{userId} and u.deleted = 0) v
              on u.time_id = v.time_id and u.college_id = v.college_id
-        WHERE is_stu_read = 1 AND deleted = 0
     </select>
 </mapper>

@@ -4,7 +4,8 @@ import lombok.Data;
 import net.maku.framework.common.entity.BaseEntity;
 
 @Data
-public class ModelFileEntity extends BaseEntity {
+public class CollegeModelFileEntity extends BaseEntity {
+
     /**
      * 学院id
      */

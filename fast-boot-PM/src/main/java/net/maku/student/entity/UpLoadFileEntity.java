@@ -50,4 +50,5 @@ public class UpLoadFileEntity {
      * 公司是否可见
      */
     Long passed;
+
 }

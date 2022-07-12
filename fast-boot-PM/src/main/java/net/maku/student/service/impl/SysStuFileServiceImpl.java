@@ -3,7 +3,7 @@ package net.maku.student.service.impl;
 import lombok.AllArgsConstructor;
 
 import net.maku.student.dao.SysStuFileDao;
-import net.maku.student.entity.ModelFileEntity;
+import net.maku.student.entity.CollegeModelFileEntity;
 import net.maku.student.service.SysStuFileService;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class SysStuFileServiceImpl implements SysStuFileService {
      * @return
      */
     @Override
-    public ModelFileEntity selectModelFilesByStuId(Long userId) {
+    public CollegeModelFileEntity selectModelFilesByStuId(Long userId) {
         return sysStuFileDao.selectModelFilesByStuId(userId);
     }
 

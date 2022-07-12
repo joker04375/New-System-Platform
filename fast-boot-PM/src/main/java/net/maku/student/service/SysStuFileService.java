@@ -1,7 +1,7 @@
 package net.maku.student.service;
 
-import net.maku.student.entity.ModelFileEntity;
+import net.maku.student.entity.CollegeModelFileEntity;
 
 public interface SysStuFileService {
-    ModelFileEntity selectModelFilesByStuId(Long userId);
+    CollegeModelFileEntity selectModelFilesByStuId(Long userId);
 }
