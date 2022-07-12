@@ -19,7 +19,6 @@ import net.maku.framework.common.utils.PageListUtils;
 import net.maku.framework.common.utils.Result;
 import net.maku.college.service.SysCollegeFileService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -85,6 +84,7 @@ public class CollegeFileController {
     @Operation(summary = "查看某个学生在这次实习下的所有文件")
     public Result<PageResult<SysPublicFileEntity>> getAllTemplateFile(long collegeId, long timeId,Query query,long stuId) {
         List<SysPublicFileEntity> allFiles = sysPublicFileService.getAllFileByStuAndCollegeAndTimeId(stuId, collegeId, timeId);
+        // 前端根据文件类型展示 文件类型（0：周报；1：简历；2：学院任务）
         // 进行分页
         Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), allFiles);
         PageResult<SysPublicFileEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
