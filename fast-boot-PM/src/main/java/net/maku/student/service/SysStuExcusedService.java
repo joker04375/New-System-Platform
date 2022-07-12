@@ -16,7 +16,7 @@ public interface SysStuExcusedService extends BaseService<SysStuExcusedEntity> {
      * 查询请假
      * @return
      */
-    List<SysStuExcusedEntity> selectExcuseds();
+    List<SysStuExcusedEntity> selectExcuseds(Long stuId);
 
 
     /**
@@ -29,7 +29,7 @@ public interface SysStuExcusedService extends BaseService<SysStuExcusedEntity> {
      * 学院查询请假
      * @return
      */
-    List<SysStuExcusedEntity> selectCollegeExcuseds();
+    List<SysStuExcusedEntity> selectCollegeExcusedsByColIdAndTimeId(Long colId,Long timeId);
 
     /**
      * author:lzm
@@ -41,5 +41,5 @@ public interface SysStuExcusedService extends BaseService<SysStuExcusedEntity> {
      * 企业查询请假
      * @return
      */
-    List<SysStuExcusedEntity> selectEnterpriseExcuseds();
+    List<SysStuExcusedEntity> selectEnterpriseExcusedsByOrgIdAndPracId(Long orgId, Long pracId);
 }

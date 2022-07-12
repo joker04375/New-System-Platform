@@ -19,7 +19,6 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class SysStuExcusedServiceImpl extends BaseServiceImpl<SysStuExcusedDao, SysStuExcusedEntity> implements SysStuExcusedService {
-
     private final SysStuExcusedDao sysStuExcusedDao;
 
     @Override
@@ -29,15 +28,16 @@ public class SysStuExcusedServiceImpl extends BaseServiceImpl<SysStuExcusedDao, 
     }
 
     @Override
-    public List<SysStuExcusedEntity> selectExcuseds() {
+    public List<SysStuExcusedEntity> selectExcuseds(Long stuId) {
         LambdaQueryWrapper<SysStuExcusedEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysStuExcusedEntity::getStuId,SecurityUser.getUserId());
+        queryWrapper.eq(SysStuExcusedEntity::getStuId,stuId);
         List<SysStuExcusedEntity> sysStuExcusedEntities = sysStuExcusedDao.selectList(queryWrapper);
         if(sysStuExcusedEntities==null){
             return Collections.emptyList();
         }
         return sysStuExcusedEntities;
     }
+
 
     @Override
     public void deleteExcused(Long id) {
@@ -48,28 +48,30 @@ public class SysStuExcusedServiceImpl extends BaseServiceImpl<SysStuExcusedDao, 
         sysStuExcusedDao.delete(queryWrapper);
     }
 
-
     @Override
-    public List<SysStuExcusedEntity> selectCollegeExcuseds() {
+    public List<SysStuExcusedEntity> selectCollegeExcusedsByColIdAndTimeId(Long colId, Long timeId) {
         LambdaQueryWrapper<SysStuExcusedEntity> queryWrapper = new LambdaQueryWrapper<>();
 
         //状态0，id匹配
         queryWrapper.eq(SysStuExcusedEntity::getStatus,1);
-        queryWrapper.eq(SysStuExcusedEntity::getColId,SecurityUser.getUserId());
+        queryWrapper.eq(SysStuExcusedEntity::getColId,colId);
+        queryWrapper.eq(SysStuExcusedEntity::getTimeId,timeId);
         List<SysStuExcusedEntity> sysStuExcusedEntities = sysStuExcusedDao.selectList(queryWrapper);
         if(sysStuExcusedEntities==null){
             return Collections.emptyList();
         }
         return sysStuExcusedEntities;
+
     }
 
     @Override
-    public List<SysStuExcusedEntity> selectEnterpriseExcuseds() {
+    public List<SysStuExcusedEntity> selectEnterpriseExcusedsByOrgIdAndPracId(Long orgId, Long pracId) {
         LambdaQueryWrapper<SysStuExcusedEntity> queryWrapper = new LambdaQueryWrapper<>();
 
         //状态0，id匹配
         queryWrapper.eq(SysStuExcusedEntity::getStatus,0);
-        queryWrapper.eq(SysStuExcusedEntity::getOrgId,SecurityUser.getUserId());
+        queryWrapper.eq(SysStuExcusedEntity::getOrgId,orgId);
+        queryWrapper.eq(SysStuExcusedEntity::getPracId,pracId);
         List<SysStuExcusedEntity> sysStuExcusedEntities = sysStuExcusedDao.selectList(queryWrapper);
         if(sysStuExcusedEntities==null){
             return Collections.emptyList();
