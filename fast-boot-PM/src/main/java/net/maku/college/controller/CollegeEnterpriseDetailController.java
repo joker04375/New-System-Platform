@@ -54,7 +54,7 @@ public class CollegeEnterpriseDetailController {
     }
 
     @GetMapping("detail/home/{orgId}")
-    @Operation(summary = "获取某个公司下的所有实行（按照时间排序）")
+    @Operation(summary = "获取某个公司下的所有实习（按照时间排序）")
     public Result<PageResult<SysOrgPracManageEntity>> getPracByOrgId(Query query, @PathVariable("orgId") long orgId) {
         List<SysOrgPracManageEntity> allPracMessage = sysOrgPracManageService.getAllPracMessage(orgId);
         allPracMessage.sort(Comparator.comparing(SysOrgPracManageEntity::getCreateTime));

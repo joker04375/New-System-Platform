@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.maku.enterprise.dao.SysOrgPracStuDao">
+    <!--lzm-->
     <select id="getAllStusByPracs" parameterType="java.util.List" resultType="net.maku.enterprise.entity.SysOrgPracStuEntity">
         SELECT w.`prac_name`,v.name,u.post_name,u.post_numb,u.post_ability,
                u.post_intro,u.post_addr,u.post_treatment,u.post_others,
@@ -13,6 +14,7 @@
                            ON w.`org_id`=v.`org_id` AND w.`prac_id`=u.`prac_id`
     </select>
 
+    <!--lzm-->
     <select id="getAllStuPracByOrgAndPracId" resultType="net.maku.enterprise.dto.SysStuPracDetailDto">
         SELECT u.org_id,v.name as orgName,u.prac_id,u.post_id,u.post as postName,u.stu_id,u.stu_name,u.stu_phone,u.stu_email,u.status
         FROM sys_org_prac_stu u
@@ -21,6 +23,7 @@
                  WHERE u.org_id = #{0} and o.prac_id = #{1}
     </select>
 
+    <!--lzm-->
     <select id="getStusByConditions" parameterType="java.util.Map" resultType="net.maku.enterprise.dto.SysStuPracDetailDto">
         SELECT u.org_id,v.name as orgName,u.prac_id,u.post_id,u.post as postName,u.stu_id,u.stu_name,u.stu_phone,u.stu_email,u.status
         FROM sys_org_prac_stu u
