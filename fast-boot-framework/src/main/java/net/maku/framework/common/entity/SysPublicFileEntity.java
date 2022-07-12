@@ -29,7 +29,7 @@ public class SysPublicFileEntity extends BaseEntity{
     String fileUrl;
 
     /*
-     * 文件类型
+     * 文件类型（0：周报；1：简历；2：学院任务）
      * */
     @TableField("file_type")
     String fileType;
