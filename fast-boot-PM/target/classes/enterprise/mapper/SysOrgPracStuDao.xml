@@ -20,11 +20,11 @@
         FROM sys_org_prac_stu u
                  LEFT JOIN sys_org_details v
                            ON u.`org_id`=v.`org_id`
-                 WHERE u.org_id = #{0} and o.prac_id = #{1}
+                 WHERE u.org_id = #{orgId} and u.prac_id = #{pracId}
     </select>
 
     <!--lzm-->
-    <select id="getStusByConditions" parameterType="java.util.Map" resultType="net.maku.enterprise.dto.SysStuPracDetailDto">
+    <select id="getStusByConditions" parameterType="java.util.Map" resultType="net.maku.enterprise.entity.SysOrgPracStuEntity">
         SELECT u.org_id,v.name as orgName,u.prac_id,u.post_id,u.post as postName,u.stu_id,u.stu_name,u.stu_phone,u.stu_email,u.status
         FROM sys_org_prac_stu u
                  LEFT JOIN sys_org_details v
@@ -34,7 +34,7 @@
                 and u.org_id = #{orgId}
             </if>
             <if test="pracId != null and pracId != ''">
-                and o.prac_id = #{pracId}
+                and u.prac_id = #{pracId}
             </if>
             <if test="stuId != null and stuId != ''">
                 and u.stu_id like "%"#{stuId}"%"

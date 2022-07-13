@@ -8,7 +8,7 @@ import net.maku.system.vo.SysDictDataVO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-12T17:20:52+0800",
+    date = "2022-07-13T20:13:43+0800",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_322 (Amazon.com Inc.)"
 )
 public class SysDictDataConvertImpl implements SysDictDataConvert {

@@ -35,8 +35,6 @@ public class CollegeFileController {
     
     private final SysPublicFileService sysPublicFileService;
 
-    private final SysPublicFileService sysPublicFileService;
-
 //    @PostMapping("/uploadTemplate")
 //    @Operation(summary = "上传模板文件，待企业审批（审批后将passed字段设置为1）")
 //    public Result<String> uploadTemplateFile(@RequestParam("orgId") int orgId,
@@ -55,7 +53,7 @@ public class CollegeFileController {
 
     @PostMapping("/uploadPattern")
     @Operation(summary = "学院下发任务")
-    public Result<String> uploadTemplateFile(@RequestBody CollegePatternFileVo info) {
+    public Result<String> uploadTemplateFile(@ModelAttribute  CollegePatternFileVo info) {
         String fileAddr= FileUtils.uploadCommonFile(info.getFile());
         SysCollegePatternFileEntity fileObj = new SysCollegePatternFileEntity();
         fileObj.setPatternId(OrgUtils.getIdByTime());
@@ -72,15 +70,16 @@ public class CollegeFileController {
         return Result.ok("success");
     }
 
-    @GetMapping("/templateFile/{orgId}/{pracId}")
-    @Operation(summary = "查看该企业下已上传的模板文件（根据是否通过进行排序（passed字段））")
-    public Result<PageResult<SysPublicFileEntity>> getAllTemplateFile(@PathVariable("orgId") int orgId, @PathVariable("pracId") int pracId,Query query) {
-        List<SysPublicFileEntity> templateFiles = sysCollegeFileService.list(new QueryWrapper<SysPublicFileEntity>().eq("orgId", orgId).eq("pracId", pracId).eq("is_common", 1).orderByAsc("passed"));
-        // 进行分页
-        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), templateFiles);
-        PageResult<SysPublicFileEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
-        return Result.ok(page);
-    }
+        // 还未知道这个接口还有无用
+//    @GetMapping("/templateFile/{orgId}/{pracId}")
+//    @Operation(summary = "查看该企业下已上传的模板文件（根据是否通过进行排序（passed字段））")
+//    public Result<PageResult<SysPublicFileEntity>> getAllTemplateFile(@PathVariable("orgId") int orgId, @PathVariable("pracId") int pracId,Query query) {
+//        List<SysPublicFileEntity> templateFiles = sysCollegeFileService.list(new QueryWrapper<SysPublicFileEntity>().eq("orgId", orgId).eq("pracId", pracId).eq("is_common", 1).orderByAsc("passed"));
+//        // 进行分页
+//        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), templateFiles);
+//        PageResult<SysPublicFileEntity> page = new PageResult<>(pages.getRecords(), pages.getTotal());
+//        return Result.ok(page);
+//    }
 
     @GetMapping("/aboutFiles")
     @Operation(summary = "查看某个学生在这次实习下的所有文件")

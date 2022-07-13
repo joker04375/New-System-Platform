@@ -8,5 +8,5 @@ import java.util.List;
 public interface SysCollegePracService extends BaseService<SysCollegePracEntity> {
     void postInternship(String year,String name,int collegeId);
 
-    List<SysCollegePracEntity> getAllOrderByYear();
+    List<SysCollegePracEntity> getAllOrderByYear(long collegeId);
 }

@@ -22,7 +22,7 @@ public class SysOrgCollegePracServiceImpl extends BaseServiceImpl<SysOrgCollegeP
     @Override
     public List<SysOrgCollegePracEntity> selectOrgByCollegeIdAndTimeID(Long collegeId, Long timeId) {
         List<SysOrgCollegePracEntity> entities = baseMapper.selectList(new QueryWrapper<SysOrgCollegePracEntity>()
-                .eq("college", collegeId)
+                .eq("college_id", collegeId)
                 .eq("time_id", timeId));
         return entities;
     }

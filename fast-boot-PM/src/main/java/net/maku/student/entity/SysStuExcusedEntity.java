@@ -105,7 +105,7 @@ public class SysStuExcusedEntity extends BaseEntity {
     /**
      * 相关附件
      */
-    private String file;
+    private String fileAddr;
 
     /**
      * 状态
