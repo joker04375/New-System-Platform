@@ -1,6 +1,7 @@
 package net.maku.student.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
 import net.maku.framework.common.service.impl.BaseServiceImpl;
 import net.maku.framework.security.user.SecurityUser;
@@ -74,6 +75,14 @@ public class SysStuExcusedServiceImpl extends BaseServiceImpl<SysStuExcusedDao, 
             return Collections.emptyList();
         }
         return sysStuExcusedEntities;
+    }
+
+    /**
+     * lzm
+     */
+    @Override
+    public List<SysStuExcusedEntity> selectExcusedByCollege(long collegeId) {
+        return baseMapper.selectList(new QueryWrapper<SysStuExcusedEntity>().eq("col_id",collegeId).eq("status",1));
     }
 
 }

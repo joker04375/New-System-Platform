@@ -80,7 +80,7 @@ public class CollegePracMangerController {
 //    @GetMapping("search")
 //    @Operation(summary = "实习批次页面下根据条件进行查询")
 //    public Result<PageResult<SysAllOrgPracDto>> getPracsByConditions(Query query,@RequestParam(required = false) Map<String,String> conditions) {
-//        List<SysAllOrgPracDto> pracs = sysOrgPracManageService.getPracsByConditions(conditions);
+//        List<SysAllOrgPracDto> pracs = sysOrgPracManageService.search(conditions);
 //        // 进行分页
 //        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), pracs);
 //        PageResult<SysAllOrgPracDto> page = new PageResult<>(pages.getRecords(), pages.getTotal());
