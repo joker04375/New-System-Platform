@@ -35,7 +35,7 @@ public interface SysStuExcusedService extends BaseService<SysStuExcusedEntity> {
      * author:lzm
      * 查询所有需要经过学院审批的请假
      */
-    List<SysStuExcusedEntity> selectExcusedByCollege(long collegeId);
+    List<SysStuExcusedEntity>  selectExcusedByCollege(long collegeId);
 
     /**
      * 企业查询请假
