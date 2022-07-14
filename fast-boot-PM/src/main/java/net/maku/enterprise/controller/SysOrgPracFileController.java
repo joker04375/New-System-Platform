@@ -3,7 +3,11 @@ package net.maku.enterprise.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
+import net.maku.college.entity.SysCollegePatternFileEntity;
+import net.maku.college.service.SysCollegePatternFileService;
+import net.maku.enterprise.entity.SysOrgCollegePracEntity;
 import net.maku.enterprise.entity.SysOrgPracFileEntity;
+import net.maku.enterprise.service.SysOrgCollegePracService;
 import net.maku.enterprise.service.SysOrgPracFileService;
 import net.maku.framework.common.page.PageResult;
 import net.maku.framework.common.query.Query;
@@ -29,13 +33,28 @@ public class SysOrgPracFileController {
 
     private SysOrgPracFileService sysOrgPracFileService;
 
+    private SysOrgCollegePracService sysOrgCollegePracService;
 
+    private SysCollegePatternFileService sysCollegePatternFileService;
 
-    @GetMapping("file/download")
+    @GetMapping("file/download/{fileUrl}")
     @Operation(summary = "文件下载")
-    public void fileDownload(@RequestBody SysOrgPracFileEntity sysOrgPracFileEntity, HttpServletResponse response)
+    public Result<String> fileDownload(@PathVariable("fileUrl") String fileUrl, HttpServletResponse response)
     {
-        sysOrgPracFileService.fileDownload(response,sysOrgPracFileEntity);
+        Boolean flag = sysOrgPracFileService.fileDownload(fileUrl, response);
+        if(flag){
+            return Result.ok("操作成功");
+        }
+        return Result.error("操作失败");
+    }
+
+    @GetMapping("file/getCommonFile/{orgId}/{pracId}")
+    @Operation(summary = "获取公司可见的文件")
+    public Result<List<SysCollegePatternFileEntity>> getCommonFile(@PathVariable("orgId") Long orgId,@PathVariable("pracId") Long pracId)
+    {
+        SysOrgCollegePracEntity entity = sysOrgCollegePracService.selectCollegeIdAndTimeIDByOrgIdAndPracId(orgId, pracId);
+        List<SysCollegePatternFileEntity> list = sysCollegePatternFileService.getAllOrgFile(entity.getCollegeId(), entity.getTimeId());
+        return Result.ok(list);
     }
 
     @PostMapping("file/upload")
@@ -51,17 +70,5 @@ public class SysOrgPracFileController {
         return Result.ok("上传成功");
     }
 
-    @GetMapping ("file/getAllFile/{orgId}/{pracId}")
-    public Result<PageResult<SysOrgPracFileEntity>> getAllFile(@RequestBody Query query,
-                                                               @PathVariable("orgId") Long orgId,
-                                                               @PathVariable("pracId") Long pracId)
-    {
-        List<SysOrgPracFileEntity> allFile = sysOrgPracFileService.getAllFile(orgId, pracId);
-
-        Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), allFile);
-        PageResult<SysOrgPracFileEntity> result = new PageResult<>(pages.getRecords(), pages.getTotal());
-
-        return Result.ok(result);
-    }
 
 }

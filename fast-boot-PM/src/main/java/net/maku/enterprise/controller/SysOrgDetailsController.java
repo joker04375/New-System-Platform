@@ -13,7 +13,6 @@ import net.maku.framework.common.utils.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -63,7 +62,7 @@ public class SysOrgDetailsController {
 
     @PostMapping("details")
     @Operation(summary = "保存")
-    public Result<String> save(@RequestBody @Valid SysOrgDetailsEntity sysOrgDetailsEntity){
+    public Result<String> save(@RequestBody SysOrgDetailsEntity sysOrgDetailsEntity){
 
         /**
          * 根据时间戳生成唯一id

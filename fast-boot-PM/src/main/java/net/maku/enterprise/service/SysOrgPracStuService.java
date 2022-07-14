@@ -45,4 +45,28 @@ public interface SysOrgPracStuService extends BaseService<SysOrgPracStuEntity> {
      */
     List<SysOrgPracStuEntity> getStusByConditions(Map<String,String> map);
 
+
+    /**
+     * 改变学生笔试面试中的轮次
+     * @param orgId
+     * @param pracId
+     * @param stuId
+     * @param interview
+     * @return
+     */
+    Boolean changeInterviewTime(Long orgId,Long pracId,Long stuId,Integer interview);
+
+    /**
+     *  改变报名学生状态
+     * @param orgId
+     * @param pracId
+     * @param stuId
+     * @param status
+     * @return
+     */
+    Boolean changeStuStatus(Long orgId,Long pracId,Long stuId,Integer status);
+
+    List<SysOrgPracStuEntity> getAllStuByInterType(Long orgId,Long pracId,Integer interType);
+
+
 }

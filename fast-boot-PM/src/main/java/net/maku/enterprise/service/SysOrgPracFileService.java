@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface SysOrgPracFileService extends BaseService<SysOrgPracFileEntity> {
 
-    Boolean fileDownload(HttpServletResponse response,SysOrgPracFileEntity sysOrgPracFileEntity);
+    Boolean fileDownload(String fileUrl,HttpServletResponse response);
 
     Boolean fileUpload(MultipartFile upLoadFile,String fileName,String uploder, String fileType, Long orgId,Long pracId);
 

@@ -66,6 +66,11 @@ public class SysOrgPracStuEntity extends BaseEntity {
    */
   private long status;
 
+  /**
+   *面试伦次 0为默认  1为笔试 2为第一轮面试,3为第二轮面试，4为第二轮面试，5为第三轮面试
+   */
+  private int interview;
+
   /*public SysOrgPracStuEntity(SysStuApplyPostDTO DTO) {
     this.orgId = DTO.getOrgId();
     this.pracId = DTO.getPracId();

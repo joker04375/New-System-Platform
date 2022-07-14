@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
 import net.maku.enterprise.dao.SysOrgPracInterviewDao;
 import net.maku.enterprise.entity.SysOrgPracInterviewEntity;
+import net.maku.enterprise.entity.SysOrgPracStuEntity;
 import net.maku.enterprise.service.SysOrgPracInterviewService;
 import net.maku.framework.common.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
@@ -43,4 +44,6 @@ public class SysOrgPracInterviewServiceImpl extends BaseServiceImpl<SysOrgPracIn
     public void delete(Long Id) {
             baseMapper.deleteById(Id);
     }
+
+
 }

@@ -75,4 +75,9 @@ public class SysOrgPracPostEntity extends BaseEntity {
    */
   private Integer status;
 
+  /**
+   * 当前岗位是否可见
+   */
+  private Integer visible;
+
 }

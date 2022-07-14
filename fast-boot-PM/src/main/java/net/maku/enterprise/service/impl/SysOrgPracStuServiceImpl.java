@@ -10,6 +10,8 @@ import net.maku.enterprise.service.SysOrgPracStuService;
 import net.maku.framework.common.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -120,7 +122,10 @@ public class SysOrgPracStuServiceImpl extends BaseServiceImpl<SysOrgPracStuDao, 
      */
     @Override
     public List<SysOrgPracStuEntity> getAllStuPracByOrgAndPracAndPostId(Long orgId, Long pracId, Long postId) {
-        return baseMapper.selectList(new QueryWrapper<SysOrgPracStuEntity>().eq("org_id",orgId).eq("prac_id",pracId).eq("post_id",postId));
+        return baseMapper.selectList(new QueryWrapper<SysOrgPracStuEntity>()
+                .eq("org_id",orgId)
+                .eq("prac_id",pracId)
+                .eq("post_id",postId));
     }
 
     /**
@@ -129,6 +134,50 @@ public class SysOrgPracStuServiceImpl extends BaseServiceImpl<SysOrgPracStuDao, 
     @Override
     public List<SysOrgPracStuEntity> getStusByConditions(Map<String, String> map) {
         return null;
+    }
+
+    @Override
+    public Boolean changeInterviewTime(Long orgId, Long pracId, Long stuId,Integer interview) {
+        SysOrgPracStuEntity entity = baseMapper.selectOne(new QueryWrapper<SysOrgPracStuEntity>()
+                .eq("org_id", orgId)
+                .eq("prac_id", pracId)
+                .eq("stu_id", stuId));
+        if(entity==null) {
+            return false;
+        } else {
+            entity.setStatus(OrgConstants.STU_STATUS_TEST);
+            entity.setInterview(interview);
+            entity.setUpdateTime(new Date());
+            update(entity);
+            return true;
+        }
+    }
+
+    @Override
+    public Boolean changeStuStatus(Long orgId, Long pracId, Long stuId, Integer status) {
+        SysOrgPracStuEntity entity = baseMapper.selectOne(new QueryWrapper<SysOrgPracStuEntity>()
+                .eq("org_id", orgId)
+                .eq("prac_id", pracId)
+                .eq("stu_id", stuId));
+        if(entity==null) {
+            return false;
+        } else {
+            entity.setStatus(status);
+            entity.setInterview(OrgConstants.STU_INTERVIEW_DEFAULT);
+            entity.setUpdateTime(new Date());
+            update(entity);
+            return true;
+        }
+    }
+
+    @Override
+    public List<SysOrgPracStuEntity> getAllStuByInterType(Long orgId, Long pracId, Integer interType) {
+        List<SysOrgPracStuEntity> list = baseMapper.selectList(new QueryWrapper<SysOrgPracStuEntity>()
+                .eq("org_id", orgId)
+                .eq("prac_id", pracId)
+                .eq("status", OrgConstants.STU_STATUS_TEST)
+                .eq("interview", interType));
+        return list;
     }
 
    /* @Override
