@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("sys/college/prac")
+@RequestMapping("/sys/college/prac")
 @Tag(name="实习管理")
 @AllArgsConstructor
 public class CollegePracMangerController {
@@ -40,7 +40,7 @@ public class CollegePracMangerController {
 
     @GetMapping("specificTimePracs")
     @Operation(summary = "查看某一学院某一批次下所有实习项目")
-    public Result<PageResult<SysAllOrgPracDto>> getAllPracsByCollegeAndTime(Query query, long collegeId, long timeId) {
+        public Result<PageResult<SysAllOrgPracDto>> getAllPracsByCollegeAndTime(Query query, long collegeId, long timeId) {
         // 中间表通过CollegeId和TimeId查询到这一学院这一批次下的所有实习id
         List<SysOrgCollegePracEntity> pracsInfo = sysOrgCollegePracService.selectOrgByCollegeIdAndTimeID(collegeId, timeId);
         List<SysAllOrgPracDto> result = new ArrayList<>();
@@ -60,7 +60,10 @@ public class CollegePracMangerController {
         List<SysOrgCollegePracEntity> pracsInfo = sysOrgCollegePracService.selectOrgByCollegeIdAndTimeID(collegeId,timeId);
         List<SysStuPracDetailDto> result = new ArrayList<>();
         for (SysOrgCollegePracEntity info : pracsInfo) {
-            result.addAll(sysOrgPracStuService.getAllStuPracByOrgAndPracId(info.getOrgId(), info.getOrgPracId()));
+            List<SysStuPracDetailDto> infos = sysOrgPracStuService.getAllStuPracByOrgAndPracId(info.getOrgId(), info.getOrgPracId());
+            if(infos != null) {
+                result.addAll(infos);
+            }
         }
         // 进行分页
         Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), result);
@@ -91,14 +94,14 @@ public class CollegePracMangerController {
      *   query:查询语句（根据实习名称查询）
      * */
     @GetMapping("searchPrac")
-    @Operation(summary = "实习批次页面下根据条件进行查询")
+        @Operation(summary = "实习批次页面下根据条件进行查询")
     public Result<PageResult<SysAllOrgPracDto>> getPracsByConditions(Query query,@RequestParam(required = false) Map<String,String> conditions) {
         List<SysOrgCollegePracEntity> pracsInfo = sysOrgCollegePracService.selectOrgByCollegeIdAndTimeID(Long.parseLong(conditions.get("collegeId")),Long.parseLong(conditions.get("timeId")));
         List<SysAllOrgPracDto> result = new ArrayList<>();
         for (SysOrgCollegePracEntity pracEntity : pracsInfo) {
             conditions.put("orgId",String.valueOf(pracEntity.getOrgId()));
             conditions.put("pracId",String.valueOf(pracEntity.getOrgPracId()));
-            List<SysAllOrgPracDto> pracs = sysOrgPracManageService.getPracsByConditions(conditions);
+            List<SysAllOrgPracDto> pracs = sysOrgPracManageService.search(conditions);
             result.addAll(pracs);
         }
         // 进行分页
@@ -123,7 +126,9 @@ public class CollegePracMangerController {
             conditions.put("orgId",String.valueOf(pracEntity.getOrgId()));
             conditions.put("pracId",String.valueOf(pracEntity.getOrgPracId()));
             List<SysOrgPracStuEntity> stus = sysOrgPracStuService.getStusByConditions(conditions);
-            result.addAll(stus);
+            if(stus != null) {
+                result.addAll(stus);
+            }
         }
         // 进行分页
         Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), result);
@@ -144,7 +149,7 @@ public class CollegePracMangerController {
         List<SysOrgPracStuEntity> resultList = new ArrayList<>();
         // 对学生状态继续过滤（只选择在实习中和已经实习结束的情况）
         for (SysOrgPracStuEntity stuEntity : sysOrgPracStuService.getAllPracStuMessage(orgId, pracId)) {
-            if(stuEntity.getStatus() == 4 || stuEntity.getStatus() == 5) {
+            if(stuEntity.getStatus() == 3 || stuEntity.getStatus() == 4) {
                 resultList.add(stuEntity);
             }
         }
@@ -155,6 +160,7 @@ public class CollegePracMangerController {
     }
 
     @GetMapping("specificPost/stu")
+    @Operation(summary = "获取某个实习某个岗位下的所有学生")
     public Result<List<SysOrgPracStuEntity>> getStuByPostId(long orgId,long pracId,long postId) {
         List<SysOrgPracStuEntity> allStus = sysOrgPracStuService.getAllStuPracByOrgAndPracAndPostId(orgId, pracId, postId);
         return Result.ok(allStus);
@@ -176,10 +182,9 @@ public class CollegePracMangerController {
 
     @GetMapping("home")
     @Operation(summary = "查看该学院下发布的实习批次（根据年份排序）")
-    public Result<List<SysCollegePracEntity>> getAllPracsByStatus(Query query) {
-        List<SysCollegePracEntity> orgPracs = sysCollegePracService.getAllOrderByYear();
+    public Result<List<SysCollegePracEntity>> getAllPracsByStatus(Query query,@RequestParam("collegeId") long collegeId) {
+        List<SysCollegePracEntity> orgPracs = sysCollegePracService.getAllOrderByYear(collegeId);
         for (SysCollegePracEntity collegePrac : orgPracs) {
-            long collegeId = collegePrac.getCollegeId();
             long timeId = collegePrac.getTimeId();
             // 中间表通过CollegeId和TimeId查询到这一学院这一批次下的所有实习id
             List<SysOrgCollegePracEntity> pracsInfo = sysOrgCollegePracService.selectOrgByCollegeIdAndTimeID(collegeId, timeId);
@@ -195,7 +200,7 @@ public class CollegePracMangerController {
 
     @PostMapping("postInternship")
     @Operation(summary = "学院发表单期实习")
-    public Result<String> postInternship(@RequestParam("year") String year, @RequestParam("name") String quarter,@RequestParam("college_id") int collegeId) {
+    public Result<String> postInternship(@RequestParam("year") String year, @RequestParam("name") String quarter,@RequestParam("collegeId") int collegeId) {
         sysCollegePracService.postInternship(year,quarter,collegeId);
         return Result.ok("Success");
     }

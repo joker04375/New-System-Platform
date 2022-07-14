@@ -27,24 +27,24 @@ public class SysPublicFileServiceImpl extends BaseServiceImpl<SysPublicFileDao,S
         return baseMapper.selectOne(queryWrapper);
     }
 
-    @Override
-    public String CreatePublicFile(MultipartFile file) {
-
-        File fileDir = new File(rootPath);
-        if (!fileDir.exists() && !fileDir.isDirectory())
-            fileDir.mkdirs();
-        //使用uuid工具
-        String uuid = UUID.randomUUID().toString();
-        String storagePath = rootPath +"/"+uuid+"_"+file.getOriginalFilename();
-        try {
-            file.transferTo(new File(storagePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String fileId = UUID.randomUUID().toString();
-        return fileId;
-    }
+//    @Override
+//    public String CreatePublicFile(MultipartFile file) {
+//
+//        File fileDir = new File(rootPath);
+//        if (!fileDir.exists() && !fileDir.isDirectory())
+//            fileDir.mkdirs();
+//        //使用uuid工具
+//        String uuid = UUID.randomUUID().toString();
+//        String storagePath = rootPath +"/"+uuid+"_"+file.getOriginalFilename();
+//        try {
+//            file.transferTo(new File(storagePath));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        String fileId = UUID.randomUUID().toString();
+//        return fileId;
+//    }
 
     @Override
     public List<SysPublicFileEntity> getAllFileByStuAndCollegeAndTimeId(long stuId, long collegeId, long timeId) {

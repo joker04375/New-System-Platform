@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import net.maku.framework.common.page.PageResult;
 import net.maku.framework.common.utils.Result;
 import net.maku.student.entity.SysStuExcusedEntity;
 import net.maku.student.service.SysStuExcusedService;

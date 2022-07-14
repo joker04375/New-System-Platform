@@ -4,6 +4,7 @@ import net.maku.enterprise.dto.SysStuPracDetailDto;
 import net.maku.enterprise.entity.SysOrgPracStuEntity;
 import net.maku.framework.common.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.Map;
 public interface SysOrgPracStuDao extends BaseDao<SysOrgPracStuEntity> {
     List<SysOrgPracStuEntity> getAllStusByPracs(List<Long> pracId);
 
-    List<SysStuPracDetailDto> getAllStuPracByOrgAndPracId(long orgId, long pracId);
+    List<SysStuPracDetailDto> getAllStuPracByOrgAndPracId(@Param("orgId")long orgId, @Param("pracId")long pracId);
 
 
     List<SysOrgPracStuEntity> getStusByConditions(Map<String,String> map);
