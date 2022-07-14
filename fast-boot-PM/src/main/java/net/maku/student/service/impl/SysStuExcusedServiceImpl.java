@@ -83,7 +83,7 @@ public class SysStuExcusedServiceImpl extends BaseServiceImpl<SysStuExcusedDao, 
      * author:lzm
      */
     @Override
-    public List<SysStuExcusedEntity> selectExcusedByCollege(long collegeId) {
+    public List<SysStuExcusedEntity>  selectExcusedByCollege(long collegeId) {
         return baseMapper.selectList(new QueryWrapper<SysStuExcusedEntity>().eq("col_id",collegeId).eq("status",1));
     }
 
