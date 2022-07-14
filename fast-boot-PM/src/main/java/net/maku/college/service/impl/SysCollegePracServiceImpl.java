@@ -26,7 +26,7 @@ public class SysCollegePracServiceImpl extends BaseServiceImpl<SysCollegePracDao
     }
 
     @Override
-    public List<SysCollegePracEntity> getAllOrderByYear() {
-        return baseMapper.selectList(new QueryWrapper<SysCollegePracEntity>().orderByDesc("year"));
+    public List<SysCollegePracEntity> getAllOrderByYear(long collegeId) {
+        return baseMapper.selectList(new QueryWrapper<SysCollegePracEntity>().eq("college_id",collegeId).orderByDesc("year"));
     }
 }

@@ -33,7 +33,7 @@ public interface SysOrgPracManageService extends BaseService<SysOrgPracManageEnt
     /**
      * author: leo
      * */
-    List<SysAllOrgPracDto> getPracsByConditions(Map<String,String> conditions);
+    List<SysAllOrgPracDto> search(Map<String,String> conditions);
 
     /**
      * author: leo

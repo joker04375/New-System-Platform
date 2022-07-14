@@ -133,7 +133,7 @@ public class SysOrgPracStuServiceImpl extends BaseServiceImpl<SysOrgPracStuDao, 
      */
     @Override
     public List<SysOrgPracStuEntity> getStusByConditions(Map<String, String> map) {
-        return null;
+        return baseMapper.getStusByConditions(map);
     }
 
     @Override
