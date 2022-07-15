@@ -192,7 +192,10 @@ public class CollegePracMangerController {
             for (SysOrgCollegePracEntity pracEntity : pracsInfo) {
                 pracIds.add(pracEntity.getOrgPracId());
             }
-            long count = sysOrgPracStuService.count(new QueryWrapper<SysOrgPracStuEntity>().in("status",3,4).in("prac_id",pracIds));
+            long count = 0;
+            if(!pracIds.isEmpty()) {
+                count = sysOrgPracStuService.count(new QueryWrapper<SysOrgPracStuEntity>().in("status", 3, 4).in("prac_id", pracIds));
+            }
             collegePrac.setStuNum(count);
         }
         return Result.ok(orgPracs);

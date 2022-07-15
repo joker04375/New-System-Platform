@@ -40,5 +40,8 @@ public interface SysStuExcusedService extends BaseService<SysStuExcusedEntity> {
     List<SysStuExcusedEntity> selectEnterpriseExcusedsByOrgIdAndPracId(Long orgId, Long pracId);
 
 
+    /**
+     * lzm
+     */
     List<SysStuExcusedEntity> selectExcusedByCollege(long collegeId);
 }
