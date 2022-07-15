@@ -20,12 +20,12 @@ public class CollegeBusinessApprovalController {
 
 //    private final SysStuWeeklyService sysStuWeeklyService;
 
-    @GetMapping("/excused")
+    /*@GetMapping("/excused")
     @Operation(summary = "学院查看当前需要审批的请假表（通过判断status是否为1来进行）")
     public Result<List<SysStuExcusedEntity>> getAllExcused(long collegeId){
         List<SysStuExcusedEntity> stuExcused = sysStuExcusedService.selectExcusedByCollege(collegeId);
         return Result.ok(stuExcused);
-    }
+    }*/
 
     @PutMapping("/excused")
     @Operation(summary = "学院进行审批，前端传回-1代表不通过，2代表通过")

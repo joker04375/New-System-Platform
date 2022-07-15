@@ -3,10 +3,15 @@ package net.maku.enterprise.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
+import net.maku.enterprise.common.OrgConstants;
+import net.maku.enterprise.common.OrgUtils;
 import net.maku.enterprise.dao.SysOrgPracManageDao;
 import net.maku.enterprise.entity.SysOrgPracManageEntity;
 import net.maku.enterprise.dto.SysAllOrgPracDto;
+import net.maku.enterprise.entity.SysOrgPracPostEntity;
 import net.maku.enterprise.service.SysOrgPracManageService;
+import net.maku.enterprise.service.SysOrgPracPostService;
+import net.maku.enterprise.vo.SysOrgPracManageVo;
 import net.maku.framework.common.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +26,8 @@ import java.util.Map;
 @Service
 @AllArgsConstructor
 public class SysOrgPracManageServiceImpl extends BaseServiceImpl<SysOrgPracManageDao, SysOrgPracManageEntity> implements SysOrgPracManageService {
+
+    private SysOrgPracPostService sysOrgPracPostService;
 
     @Override
     public SysOrgPracManageEntity getOnePracMessage(Long Id)
@@ -102,6 +109,29 @@ public class SysOrgPracManageServiceImpl extends BaseServiceImpl<SysOrgPracManag
     @Override
     public SysAllOrgPracDto getByOrgAndPracId(long orgId, long pracId) {
         return baseMapper.getByOrgAndPracId(orgId, pracId);
+    }
+
+    @Override
+    public void savePracAndPost(SysOrgPracManageVo sysOrgPracManageVo) {
+        /**
+         * 根据时间戳生成唯一id
+         *
+         */
+        Long pracId = OrgUtils.getIdByTime();
+        SysOrgPracManageEntity manageEntity = sysOrgPracManageVo.getSysOrgPracManageEntity();
+        manageEntity.setPracId(pracId);
+        manageEntity.setPracStatus(OrgConstants.PRAC_STATUS_WORK);
+        save(manageEntity);
+
+        List<SysOrgPracPostEntity> list = sysOrgPracManageVo.getList();
+        for (SysOrgPracPostEntity entity:list) {
+            Long postId = OrgUtils.getIdByTime();
+            entity.setPostId(postId);
+            entity.setPracId(pracId);
+            entity.setStatus(OrgConstants.POST_STATUS_WAIT);
+            entity.setVisible(OrgConstants.POST_VISIBLE_FALSE);
+            sysOrgPracPostService.save(entity);
+        }
     }
 
 

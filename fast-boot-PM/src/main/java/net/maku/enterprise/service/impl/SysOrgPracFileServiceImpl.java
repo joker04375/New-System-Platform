@@ -34,56 +34,15 @@ public class SysOrgPracFileServiceImpl extends BaseServiceImpl<SysOrgPracFileDao
         implements SysOrgPracFileService {
 
     @Override
-    public Boolean fileDownload(HttpServletResponse response, SysOrgPracFileEntity sysOrgPracFileEntity) {
-
-
-        String fileName = sysOrgPracFileEntity.getFileName();
-        String url= sysOrgPracFileEntity.getFileAddr();
-
-        String extension=url.substring(url.lastIndexOf(".")+1);
-        String filename= fileName + extension;
-        filename =new String(filename.getBytes(StandardCharsets.ISO_8859_1));
-
-        response.reset();
-        response.setContentType("application/octet-stream;charset=UTF-8");
-
-        ServletOutputStream outputStream = null;
-
-        FileInputStream fileInputStream = null;
+    public Boolean fileDownload(String fileUrl,HttpServletResponse response) {
         try {
-
-            outputStream = response.getOutputStream();
-
-
-            response.setHeader("Content-Disposition", "attachment;filename="+filename);
-
-            fileInputStream = new FileInputStream(url);
-            byte[] bytes = new byte[1024];
-
-            int len;
-            while ((len = fileInputStream.read(bytes)) != -1) {
-                outputStream.write(bytes, 0, len);
-            }
+            FileUtils.downLoadFile(fileUrl,response);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-
-                if (outputStream != null) {
-                    outputStream.flush();
-                }
-
-                if (fileInputStream != null) {
-                    fileInputStream.close();
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return false;
+        }finally {
+            return  false;
         }
-
     }
 
 

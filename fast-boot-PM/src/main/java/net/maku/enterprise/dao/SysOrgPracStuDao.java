@@ -3,6 +3,7 @@ package net.maku.enterprise.dao;
 import net.maku.enterprise.dto.SysStuPracDetailDto;
 import net.maku.enterprise.entity.SysOrgPracStuEntity;
 import net.maku.framework.common.dao.BaseDao;
+import net.maku.student.entity.SysStuPostEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,5 +23,6 @@ public interface SysOrgPracStuDao extends BaseDao<SysOrgPracStuEntity> {
 
 
     List<SysOrgPracStuEntity> getStusByConditions(Map<String,String> map);
+
 
 }

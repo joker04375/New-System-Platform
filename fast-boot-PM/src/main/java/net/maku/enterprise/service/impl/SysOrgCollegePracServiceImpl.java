@@ -26,4 +26,12 @@ public class SysOrgCollegePracServiceImpl extends BaseServiceImpl<SysOrgCollegeP
                 .eq("time_id", timeId));
         return entities;
     }
+
+    @Override
+    public SysOrgCollegePracEntity selectCollegeIdAndTimeIDByOrgIdAndPracId(Long orgId, Long pracId) {
+        SysOrgCollegePracEntity entity = baseMapper.selectOne(new QueryWrapper<SysOrgCollegePracEntity>()
+                .eq("org_id", orgId)
+                .eq("org_prac_id", pracId));
+        return entity;
+    }
 }

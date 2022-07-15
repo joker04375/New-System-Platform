@@ -4,6 +4,7 @@ import net.maku.enterprise.entity.SysOrgPracInterviewEntity;
 import net.maku.enterprise.entity.SysOrgPracStuEntity;
 import net.maku.framework.common.service.BaseService;
 import net.maku.framework.common.utils.Result;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
