@@ -41,7 +41,7 @@ public class SysOrgPracStuController {
         return Result.ok(onePracMessage);
     }
 
-    @GetMapping("stu/page/{orgId}/{pracId}")
+    @PostMapping("stu/page/{orgId}/{pracId}")
     @Operation(summary = "企业实习一个实习所有学生信息")
     public Result<PageResult<SysOrgPracStuEntity>> getAllStuDetails(
             @PathVariable("orgId") Long orgId,
@@ -92,7 +92,7 @@ public class SysOrgPracStuController {
      * @param pracId
      * @return
      */
-    @GetMapping("stu/page/getAllApplyStu/{orgId}/{pracId}")
+    @PostMapping("stu/page/getAllApplyStu/{orgId}/{pracId}")
     public Result<PageResult<SysOrgPracStuEntity>> getAllApplyStu(@PathVariable("orgId") Long orgId,
                                                             @PathVariable("pracId") Long pracId,
                                                             @RequestBody Query query)
@@ -109,7 +109,7 @@ public class SysOrgPracStuController {
      * @param pracId
      * @return
      */
-    @GetMapping("stu/page/getAllWorkingStu/{orgId}/{pracId}")
+    @PostMapping("stu/page/getAllWorkingStu/{orgId}/{pracId}")
     public Result<PageResult<SysOrgPracStuEntity>> getAllWorkingStu(@PathVariable("orgId") Long orgId,
                                                               @PathVariable("pracId") Long pracId,
                                                               @RequestBody Query query)
@@ -126,7 +126,7 @@ public class SysOrgPracStuController {
      * @param pracId
      * @return
      */
-    @GetMapping("stu/page/getAllOutStu/{orgId}/{pracId}")
+    @PostMapping("stu/page/getAllOutStu/{orgId}/{pracId}")
     public Result<PageResult<SysOrgPracStuEntity>> getAllOutStu(@PathVariable("orgId") Long orgId,
                                                           @PathVariable("pracId") Long pracId,
                                                           @RequestBody Query query)
@@ -316,7 +316,7 @@ public class SysOrgPracStuController {
      * @param pracId 实习id
      * @return
      */
-    @GetMapping("stu/getAllStuByInterType/{orgId}/{pracId}/{interType}")
+    @PostMapping("stu/getAllStuByInterType/{orgId}/{pracId}/{interType}")
     public Result<PageResult<SysOrgPracStuEntity>> getAllStuByInterType(@PathVariable("orgId")  Long orgId,
                                                @PathVariable("pracId") Long pracId,
                                                @PathVariable("interType") Integer interType,

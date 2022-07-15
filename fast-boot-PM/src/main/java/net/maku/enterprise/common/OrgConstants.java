@@ -13,7 +13,10 @@ public class OrgConstants {
     public static final String ORG_PRAC_FILE_URL = "D:\\";
 
 
-
+    /**
+     *企业实习状态 ：进行中
+     */
+    public static final Integer PRAC_STATUS_WORK = 1;
 
     /**
      *企业实习岗位审查状态 ：不通过
@@ -88,6 +91,16 @@ public class OrgConstants {
      *学生笔试面试批次：第三轮面试
      */
     public static final Integer STU_INTERVIEW_FACE_3 = 4;
+
+    /**
+     *岗位可见
+     */
+    public static final Integer POST_VISIBLE_TRUE = 1;
+
+    /**
+     *岗位不可见
+     */
+    public static final Integer POST_VISIBLE_FALSE = 0;
 
 
 

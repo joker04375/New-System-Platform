@@ -37,9 +37,9 @@ public class SysOrgPracFileController {
 
     private SysCollegePatternFileService sysCollegePatternFileService;
 
-    @GetMapping("file/download/{fileUrl}")
+    @GetMapping("file/download")
     @Operation(summary = "文件下载")
-    public Result<String> fileDownload(@PathVariable("fileUrl") String fileUrl, HttpServletResponse response)
+    public Result<String> fileDownload(String fileUrl, HttpServletResponse response)
     {
         Boolean flag = sysOrgPracFileService.fileDownload(fileUrl, response);
         if(flag){

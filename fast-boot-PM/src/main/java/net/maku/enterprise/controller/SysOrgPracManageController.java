@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import net.maku.enterprise.common.OrgUtils;
 import net.maku.enterprise.entity.SysOrgPracManageEntity;
 import net.maku.enterprise.service.SysOrgPracManageService;
+import net.maku.enterprise.vo.SysOrgPracManageVo;
 import net.maku.framework.common.page.PageResult;
 import net.maku.framework.common.query.Query;
 import net.maku.framework.common.utils.PageListUtils;
@@ -29,7 +30,7 @@ public class SysOrgPracManageController {
 
     private final SysOrgPracManageService sysOrgPracManageService;
 
-    @GetMapping("manage/page/{orgId}")
+    @PostMapping("manage/page/{orgId}")
     @Operation(summary = "获取企业所有实习信息  分页")
     public Result<PageResult<SysOrgPracManageEntity>> page(@RequestBody Query query,@PathVariable("orgId") Long orgId){
         List<SysOrgPracManageEntity> allPracMessage = sysOrgPracManageService.getAllPracMessage(orgId);
@@ -70,14 +71,9 @@ public class SysOrgPracManageController {
 
     @PostMapping("manage")
     @Operation(summary = "保存")
-    public Result<String> save(@RequestBody @Valid SysOrgPracManageEntity sysOrgPracManageEntity){
-        /**
-         * 根据时间戳生成唯一id
-         *
-         */
-        Long pracId = OrgUtils.getIdByTime();
-        sysOrgPracManageEntity.setPracId(pracId);
-        sysOrgPracManageService.save(sysOrgPracManageEntity);
+    public Result<String> save(@RequestBody SysOrgPracManageVo sysOrgPracManageVo){
+
+        sysOrgPracManageService.savePracAndPost(sysOrgPracManageVo);
         return Result.ok("新增成功");
     }
 

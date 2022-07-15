@@ -42,7 +42,7 @@ public class SysOrgPracPostController {
         return Result.ok(onePracMessage);
     }
 
-    @GetMapping("post/page/{orgId}/{pracId}")
+    @PostMapping("post/page/{orgId}/{pracId}")
     @Operation(summary = "企业某个实习所有岗位信息")
     public Result<PageResult<SysOrgPracPostEntity>> getOrgDetails(
             @PathVariable("orgId") Long orgId,

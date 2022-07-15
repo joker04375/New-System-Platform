@@ -22,7 +22,7 @@ public interface SysOrgPracStuDao extends BaseDao<SysOrgPracStuEntity> {
     List<SysStuPracDetailDto> getAllStuPracByOrgAndPracId(@Param("orgId")long orgId, @Param("pracId")long pracId);
 
 
-    List<SysStuPostEntity> getStusByConditions(Map<String,String> map);
+    List<SysOrgPracStuEntity> getStusByConditions(Map<String,String> map);
 
 
 }

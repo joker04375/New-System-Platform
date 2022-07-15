@@ -38,7 +38,7 @@ public class SysOrgDetailsController {
     }
 
 
-    @GetMapping("page")
+    @PostMapping("page")
     @Operation(summary = "所有企业详情信息")
     public Result<PageResult<SysOrgDetailsEntity>> getAllOrgDetails(@RequestBody Query query)
     {

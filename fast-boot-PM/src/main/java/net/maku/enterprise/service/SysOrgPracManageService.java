@@ -2,6 +2,7 @@ package net.maku.enterprise.service;
 
 import net.maku.enterprise.entity.SysOrgPracManageEntity;
 import net.maku.enterprise.dto.SysAllOrgPracDto;
+import net.maku.enterprise.vo.SysOrgPracManageVo;
 import net.maku.framework.common.service.BaseService;
 
 import java.util.List;
@@ -44,5 +45,7 @@ public interface SysOrgPracManageService extends BaseService<SysOrgPracManageEnt
      * author: leo
      * */
     SysAllOrgPracDto getByOrgAndPracId(long orgId,long pracId);
+
+    void savePracAndPost(SysOrgPracManageVo sysOrgPracManageVo);
 
 }
