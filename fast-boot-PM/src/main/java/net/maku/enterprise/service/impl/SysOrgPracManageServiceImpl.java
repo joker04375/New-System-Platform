@@ -3,12 +3,15 @@ package net.maku.enterprise.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
+import net.maku.college.service.SysCollegePracService;
 import net.maku.enterprise.common.OrgConstants;
 import net.maku.enterprise.common.OrgUtils;
 import net.maku.enterprise.dao.SysOrgPracManageDao;
+import net.maku.enterprise.entity.SysOrgCollegePracEntity;
 import net.maku.enterprise.entity.SysOrgPracManageEntity;
 import net.maku.enterprise.dto.SysAllOrgPracDto;
 import net.maku.enterprise.entity.SysOrgPracPostEntity;
+import net.maku.enterprise.service.SysOrgCollegePracService;
 import net.maku.enterprise.service.SysOrgPracManageService;
 import net.maku.enterprise.service.SysOrgPracPostService;
 import net.maku.enterprise.vo.SysOrgPracManageVo;
@@ -28,6 +31,10 @@ import java.util.Map;
 public class SysOrgPracManageServiceImpl extends BaseServiceImpl<SysOrgPracManageDao, SysOrgPracManageEntity> implements SysOrgPracManageService {
 
     private SysOrgPracPostService sysOrgPracPostService;
+
+    private SysCollegePracService sysCollegePracService;
+
+    private SysOrgCollegePracService sysOrgCollegePracService;
 
     @Override
     public SysOrgPracManageEntity getOnePracMessage(Long Id)
@@ -112,13 +119,27 @@ public class SysOrgPracManageServiceImpl extends BaseServiceImpl<SysOrgPracManag
     }
 
     @Override
-    public void savePracAndPost(SysOrgPracManageVo sysOrgPracManageVo) {
+    public Boolean savePracAndPost(SysOrgPracManageVo sysOrgPracManageVo) {
+
+        Long timeId = sysCollegePracService.getActivePracByCollegeId(sysOrgPracManageVo.getCollegeId());
+        if(timeId==null){
+            return false;
+        }
         /**
          * 根据时间戳生成唯一id
          *
          */
         Long pracId = OrgUtils.getIdByTime();
+
+        SysOrgCollegePracEntity OrgCollegePracEntity = new SysOrgCollegePracEntity();
+        OrgCollegePracEntity.setOrgId(sysOrgPracManageVo.getOrgId());
+        OrgCollegePracEntity.setOrgPracId(pracId);
+        OrgCollegePracEntity.setCollegeId(sysOrgPracManageVo.getCollegeId());
+        OrgCollegePracEntity.setTimeId(timeId);
+        sysOrgCollegePracService.save(OrgCollegePracEntity);
+
         SysOrgPracManageEntity manageEntity = sysOrgPracManageVo.getSysOrgPracManageEntity();
+        manageEntity.setOrgId(sysOrgPracManageVo.getOrgId());
         manageEntity.setPracId(pracId);
         manageEntity.setPracStatus(OrgConstants.PRAC_STATUS_WORK);
         save(manageEntity);
@@ -126,12 +147,14 @@ public class SysOrgPracManageServiceImpl extends BaseServiceImpl<SysOrgPracManag
         List<SysOrgPracPostEntity> list = sysOrgPracManageVo.getList();
         for (SysOrgPracPostEntity entity:list) {
             Long postId = OrgUtils.getIdByTime();
+            entity.setOrgId(sysOrgPracManageVo.getOrgId());
             entity.setPostId(postId);
             entity.setPracId(pracId);
             entity.setStatus(OrgConstants.POST_STATUS_WAIT);
             entity.setVisible(OrgConstants.POST_VISIBLE_FALSE);
             sysOrgPracPostService.save(entity);
         }
+        return true;
     }
 
 

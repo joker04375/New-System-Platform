@@ -73,8 +73,11 @@ public class SysOrgPracManageController {
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody SysOrgPracManageVo sysOrgPracManageVo){
 
-        sysOrgPracManageService.savePracAndPost(sysOrgPracManageVo);
-        return Result.ok("新增成功");
+        Boolean flag = sysOrgPracManageService.savePracAndPost(sysOrgPracManageVo);
+        if(flag) {
+            return Result.ok("新增成功");
+        }
+        return Result.error("操作失败");
     }
 
     @PutMapping("manage")

@@ -9,4 +9,12 @@ public interface SysCollegePracService extends BaseService<SysCollegePracEntity>
     void postInternship(String year,String name,int collegeId);
 
     List<SysCollegePracEntity> getAllOrderByYear(long collegeId);
+
+
+    /**
+     *
+     * @param collegeId
+     * @return  Lh
+     */
+    Long getActivePracByCollegeId(Long collegeId);
 }

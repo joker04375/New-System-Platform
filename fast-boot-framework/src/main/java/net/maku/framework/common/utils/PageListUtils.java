@@ -17,6 +17,11 @@ public class PageListUtils {
         Page page = new Page();
         int size = list.size();
 
+        if(size==0){
+            page.setCurrent(0).setSize(0).setTotal(0).setRecords(null);
+            return page;
+        }
+
         if(pageSize > size) {
             pageSize = size;
         }

@@ -18,6 +18,10 @@ import java.util.List;
 @NoArgsConstructor
 public class SysOrgPracManageVo {
 
+    private Long orgId;
+
+    private Long collegeId;
+
     private SysOrgPracManageEntity sysOrgPracManageEntity;
 
     private List<SysOrgPracPostEntity> list;

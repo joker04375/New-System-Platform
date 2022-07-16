@@ -46,6 +46,6 @@ public interface SysOrgPracManageService extends BaseService<SysOrgPracManageEnt
      * */
     SysAllOrgPracDto getByOrgAndPracId(long orgId,long pracId);
 
-    void savePracAndPost(SysOrgPracManageVo sysOrgPracManageVo);
+    Boolean savePracAndPost(SysOrgPracManageVo sysOrgPracManageVo);
 
 }

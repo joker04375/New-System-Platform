@@ -29,4 +29,15 @@ public class SysCollegePracServiceImpl extends BaseServiceImpl<SysCollegePracDao
     public List<SysCollegePracEntity> getAllOrderByYear(long collegeId) {
         return baseMapper.selectList(new QueryWrapper<SysCollegePracEntity>().eq("college_id",collegeId).orderByDesc("year"));
     }
+
+    @Override
+    public Long getActivePracByCollegeId(Long collegeId) {
+        SysCollegePracEntity entity = baseMapper.selectOne(new QueryWrapper<SysCollegePracEntity>()
+                .eq("college_id", collegeId)
+                .eq("status", 1));
+        if(entity==null) {
+            return null;
+        }
+        return entity.getTimeId();
+    }
 }

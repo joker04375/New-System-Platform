@@ -2,8 +2,10 @@ package net.maku.enterprise.entity;
 
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import net.maku.framework.common.entity.BaseEntity;
 
 
@@ -15,6 +17,8 @@ import net.maku.framework.common.entity.BaseEntity;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @TableName("sys_org_college_prac")
+@AllArgsConstructor
+@NoArgsConstructor
 public class SysOrgCollegePracEntity extends BaseEntity {
 
   /**

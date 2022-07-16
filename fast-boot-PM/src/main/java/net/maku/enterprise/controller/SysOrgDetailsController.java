@@ -69,7 +69,6 @@ public class SysOrgDetailsController {
          *
          */
         Long orgId = OrgUtils.getIdByTime();
-
         sysOrgDetailsEntity.setOrgId(orgId);
         sysOrgDetailsService.save(sysOrgDetailsEntity);
         return Result.ok("新增成功");
