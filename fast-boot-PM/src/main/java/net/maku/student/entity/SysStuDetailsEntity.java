@@ -3,10 +3,12 @@ package net.maku.student.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.maku.framework.common.entity.BaseEntity;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @TableName("sys_stu_details")
 public class SysStuDetailsEntity extends BaseEntity {
     /**

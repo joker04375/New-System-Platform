@@ -12,8 +12,11 @@ import net.maku.framework.common.page.PageResult;
 import net.maku.framework.common.query.Query;
 import net.maku.framework.common.utils.PageListUtils;
 import net.maku.framework.common.utils.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Comparator;
 import java.util.List;
 
@@ -22,13 +25,14 @@ import java.util.List;
 @Tag(name="企业管理")
 @AllArgsConstructor
 public class CollegeEnterpriseDetailController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CollegeEnterpriseDetailController.class);
     private final SysOrgPracManageService sysOrgPracManageService;
 
     private final SysOrgDetailsService sysOrgDetailsService;
 
     @GetMapping("home")
     @Operation(summary = "企业管理")
-    public Result<PageResult<SysOrgDetailsEntity>> getAllEnterprise(Query query){
+    public Result<PageResult<SysOrgDetailsEntity>> getAllEnterprise(@Valid Query query){
         List<SysOrgDetailsEntity> allEnterprise = sysOrgDetailsService.getAllOrgDetails();
         // 进行分页
         Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), allEnterprise);
@@ -45,7 +49,7 @@ public class CollegeEnterpriseDetailController {
 
     @GetMapping("search")
     @Operation(summary = "搜索功能（根据公司名）")
-    public Result<PageResult<SysOrgDetailsEntity>> getEnterpriseByName(Query query, @RequestParam("query") String name) {
+    public Result<PageResult<SysOrgDetailsEntity>> getEnterpriseByName(@Valid Query query, @RequestParam("query") String name) {
         List<SysOrgDetailsEntity> allEnterprise = sysOrgDetailsService.getByQuery(name);
         // 进行分页
         Page pages = PageListUtils.getPages(query.getPage(), query.getLimit(), allEnterprise);

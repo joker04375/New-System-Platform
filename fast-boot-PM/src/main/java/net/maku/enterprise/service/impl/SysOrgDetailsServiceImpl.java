@@ -6,6 +6,7 @@ import net.maku.enterprise.dao.SysOrgDetailsDao;
 import net.maku.enterprise.entity.SysOrgDetailsEntity;
 import net.maku.enterprise.service.SysOrgDetailsService;
 import net.maku.framework.common.service.impl.BaseServiceImpl;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class SysOrgDetailsServiceImpl extends BaseServiceImpl<SysOrgDetailsDao, 
     }
 
     @Override
+    @Cacheable(value = "orgDetail",key = "'userInfo' + #id")
     public SysOrgDetailsEntity getDetails(Long Id) {
         SysOrgDetailsEntity sysOrgDetailsEntity = baseMapper.selectOne(new QueryWrapper<SysOrgDetailsEntity>()
                 .eq("org_id",Id));

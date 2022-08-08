@@ -7,7 +7,12 @@ import net.maku.enterprise.dto.SysAllOrgPostDto;
 import net.maku.enterprise.entity.SysOrgPracPostEntity;
 import net.maku.enterprise.service.SysOrgPracPostService;
 import net.maku.framework.common.service.impl.BaseServiceImpl;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.List;
 
@@ -21,6 +26,7 @@ import java.util.List;
 public class SysOrgPracPostServiceImpl extends BaseServiceImpl<SysOrgPracPostDao, SysOrgPracPostEntity>
         implements SysOrgPracPostService {
 
+    private PlatformTransactionManager transactionManager;
     private SysOrgPracPostDao sysOrgPracPostDao;
 
 
@@ -55,6 +61,7 @@ public class SysOrgPracPostServiceImpl extends BaseServiceImpl<SysOrgPracPostDao
     }
 
     @Override
+    @CacheEvict(cacheManager = "redisCacheManager", value = "'orgPost'", key = "'postId' + #postId")
     public Boolean delete(Long Id,Long orgId,Long pracId,Long postId) {
         SysOrgPracPostEntity entity = baseMapper.selectOne(new QueryWrapper<SysOrgPracPostEntity>()
                 .eq("id",Id)
@@ -70,6 +77,7 @@ public class SysOrgPracPostServiceImpl extends BaseServiceImpl<SysOrgPracPostDao
     }
 
     @Override
+    @Cacheable(cacheManager = "redisCacheManager", value = "orgPost", key = "allOrgPost")
     public List<SysAllOrgPostDto> getAllOrgPost(){
         List<SysAllOrgPostDto> allOrgPost = sysOrgPracPostDao.getAllOrgPost();
         return allOrgPost;
@@ -80,7 +88,13 @@ public class SysOrgPracPostServiceImpl extends BaseServiceImpl<SysOrgPracPostDao
         SysOrgPracPostEntity sysOrgPracPostEntity = baseMapper.selectById(id);
         sysOrgPracPostEntity.setStatus(status);
         sysOrgPracPostEntity.setDeleted(1);
-        baseMapper.updateById(sysOrgPracPostEntity);
+        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            baseMapper.updateById(sysOrgPracPostEntity);
+            transactionManager.commit(txStatus);
+        } catch (Exception e) {
+            transactionManager.rollback(txStatus);
+        }
     }
 
     @Override

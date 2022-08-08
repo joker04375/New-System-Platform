@@ -4,12 +4,13 @@ import net.maku.framework.security.user.UserDetail;
 import net.maku.system.entity.SysUserEntity;
 import net.maku.system.vo.SysUserVO;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
 
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysUserConvert {
     SysUserConvert INSTANCE = Mappers.getMapper(SysUserConvert.class);
 

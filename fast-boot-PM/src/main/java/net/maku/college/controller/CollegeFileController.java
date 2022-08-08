@@ -19,6 +19,7 @@ import net.maku.framework.common.utils.PageListUtils;
 import net.maku.framework.common.utils.Result;
 import net.maku.college.service.SysCollegeFileService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -101,6 +102,13 @@ public class CollegeFileController {
             e.printStackTrace();
             return Result.error("failed");
         }
+        return Result.ok("success");
+    }
+
+    @GetMapping("/upload")
+    @Operation(summary = "下载学生的某个文件")
+    public Result<String> downloadFile(MultipartFile file) {
+        FileUtils.uploadCommonFile(file);
         return Result.ok("success");
     }
 }

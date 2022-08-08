@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import net.maku.framework.common.utils.Result;
 import net.maku.student.entity.SysStuExcusedEntity;
 import net.maku.student.service.SysStuExcusedService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +19,8 @@ import java.util.List;
 @Tag(name="业务审批")
 @AllArgsConstructor
 public class CollegeBusinessApprovalController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CollegeBusinessApprovalController.class);
     private final SysStuExcusedService sysStuExcusedService;
 
 //    private final SysStuWeeklyService sysStuWeeklyService;
@@ -28,12 +33,15 @@ public class CollegeBusinessApprovalController {
     }*/
 
     @PutMapping("/excused")
+    @Secured("ROLE_TEACHER")
     @Operation(summary = "学院进行审批，前端传回-1代表不通过，2代表通过")
     public Result<String> dealExcused(@RequestParam("id") long id, @RequestParam("status") int status) {
         boolean b = sysStuExcusedService.update(null, new UpdateWrapper<SysStuExcusedEntity>().eq("id", id).set("status", status));
         if (b){
+            LOGGER.info("文件 {} 已经通过审批",id);
             return Result.ok("success");
         }
+        LOGGER.error("文件 {} 审批失败",id);
         return Result.error("failed");
     }
 

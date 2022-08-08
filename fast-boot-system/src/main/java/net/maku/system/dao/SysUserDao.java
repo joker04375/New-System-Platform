@@ -25,6 +25,10 @@ public interface SysUserDao extends BaseDao<SysUserEntity> {
 		return this.selectOne(new QueryWrapper<SysUserEntity>().eq("username", username));
 	}
 
+	default SysUserEntity getByWorkNumber(String workNumber){
+		return this.selectOne(new QueryWrapper<SysUserEntity>().eq("work_number", workNumber));
+	}
+
 	default SysUserEntity getByMobile(String mobile){
 		return this.selectOne(new QueryWrapper<SysUserEntity>().eq("mobile", mobile));
 	}

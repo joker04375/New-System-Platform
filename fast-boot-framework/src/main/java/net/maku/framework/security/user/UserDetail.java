@@ -30,6 +30,7 @@ public class UserDetail implements UserDetails {
     private Integer status;
     private Integer superAdmin;
     private Date createTime;
+    private String workNumber;
     /**
      * 数据权限范围
      *
@@ -63,6 +64,11 @@ public class UserDetail implements UserDetails {
     }
 
     @Override
+    public String getUsername() {
+        return this.workNumber;
+    }
+
+    @Override
     public boolean isAccountNonExpired() {
         return this.isAccountNonExpired;
     }
@@ -81,4 +87,5 @@ public class UserDetail implements UserDetails {
     public boolean isEnabled() {
         return this.isEnabled;
     }
+
 }

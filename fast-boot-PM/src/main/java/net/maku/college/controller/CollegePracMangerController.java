@@ -16,6 +16,8 @@ import net.maku.framework.common.query.Query;
 import net.maku.framework.common.utils.PageListUtils;
 import net.maku.framework.common.utils.Result;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +42,7 @@ public class CollegePracMangerController {
 
     @GetMapping("specificTimePracs")
     @Operation(summary = "查看某一学院某一批次下所有实习项目")
-        public Result<PageResult<SysAllOrgPracDto>> getAllPracsByCollegeAndTime(Query query, long collegeId, long timeId) {
+        public Result<PageResult<SysAllOrgPracDto>> getAllPracsByCollegeAndTime(@Valid Query query, long collegeId, long timeId) {
         // 中间表通过CollegeId和TimeId查询到这一学院这一批次下的所有实习id
         List<SysOrgCollegePracEntity> pracsInfo = sysOrgCollegePracService.selectOrgByCollegeIdAndTimeID(collegeId, timeId);
         List<SysAllOrgPracDto> result = new ArrayList<>();
@@ -55,7 +57,7 @@ public class CollegePracMangerController {
 
     @GetMapping("specificTimeStus")
     @Operation(summary = "查看某一学院某一批次下所有实习学生")
-    public Result<PageResult<SysStuPracDetailDto>> getAllStusByCollegeAndTime(Query query,long collegeId,long timeId) {
+    public Result<PageResult<SysStuPracDetailDto>> getAllStusByCollegeAndTime(@Valid Query query,long collegeId,long timeId) {
         // 中间表通过CollegeId和TimeId查询到这一学院这一批次下的所有实习id以及对应的学院id
         List<SysOrgCollegePracEntity> pracsInfo = sysOrgCollegePracService.selectOrgByCollegeIdAndTimeID(collegeId,timeId);
         List<SysStuPracDetailDto> result = new ArrayList<>();
@@ -95,7 +97,7 @@ public class CollegePracMangerController {
      * */
     @GetMapping("searchPrac")
         @Operation(summary = "实习批次页面下根据条件进行查询")
-    public Result<PageResult<SysAllOrgPracDto>> getPracsByConditions(Query query,@RequestParam(required = false) Map<String,String> conditions) {
+    public Result<PageResult<SysAllOrgPracDto>> getPracsByConditions(@Valid Query query, @RequestParam(required = false) Map<String,String> conditions) {
         List<SysOrgCollegePracEntity> pracsInfo = sysOrgCollegePracService.selectOrgByCollegeIdAndTimeID(Long.parseLong(conditions.get("collegeId")),Long.parseLong(conditions.get("timeId")));
         List<SysAllOrgPracDto> result = new ArrayList<>();
         for (SysOrgCollegePracEntity pracEntity : pracsInfo) {
@@ -119,7 +121,7 @@ public class CollegePracMangerController {
      * */
     @GetMapping("searchStu")
     @Operation(summary = "实习批次全体学生管理页面下根据条件进行查询")
-    public Result<PageResult<SysOrgPracStuEntity>> getStusByConditions(Query query,@RequestParam(required = false) Map<String,String> conditions) {
+    public Result<PageResult<SysOrgPracStuEntity>> getStusByConditions(@Valid Query query,@RequestParam(required = false) Map<String,String> conditions) {
         List<SysOrgCollegePracEntity> pracsInfo = sysOrgCollegePracService.selectOrgByCollegeIdAndTimeID(Long.parseLong(conditions.get("collegeId")),Long.parseLong(conditions.get("timeId")));
         List<SysOrgPracStuEntity> result = new ArrayList<>();
         for (SysOrgCollegePracEntity pracEntity : pracsInfo) {
@@ -145,7 +147,7 @@ public class CollegePracMangerController {
 
     @GetMapping("post/stu/{orgId}/{pracId}")
     @Operation(summary = "对企业实习项目中全部学生的查看")
-    public Result<PageResult<SysOrgPracStuEntity>> getAllStuById(Query query, @PathVariable(name = "orgId") long orgId, @PathVariable(name = "pracId") long pracId) {
+    public Result<PageResult<SysOrgPracStuEntity>> getAllStuById(@Valid Query query, @PathVariable(name = "orgId") long orgId, @PathVariable(name = "pracId") long pracId) {
         List<SysOrgPracStuEntity> resultList = new ArrayList<>();
         // 对学生状态继续过滤（只选择在实习中和已经实习结束的情况）
         for (SysOrgPracStuEntity stuEntity : sysOrgPracStuService.getAllPracStuMessage(orgId, pracId)) {
@@ -203,9 +205,9 @@ public class CollegePracMangerController {
 
     @PostMapping("postInternship")
     @Operation(summary = "学院发表单期实习")
-    public Result<String> postInternship(@RequestParam("year") String year, @RequestParam("name") String quarter,@RequestParam("collegeId") int collegeId) {
-        sysCollegePracService.postInternship(year,quarter,collegeId);
-        return Result.ok("Success");
+    public Result postInternship(@RequestParam("year") String year, @RequestParam("name") String quarter,@RequestParam("collegeId") int collegeId) {
+        return sysCollegePracService.postInternship(year,quarter,collegeId);
+//        return Result.ok("Success");
     }
 
 }

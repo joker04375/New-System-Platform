@@ -1,0 +1,67 @@
+{
+  "groups": [
+    {
+      "name": "email",
+      "type": "net.maku.auth.properties.EmailSettings",
+      "sourceType": "net.maku.auth.properties.EmailSettings"
+    },
+    {
+      "name": "jwt",
+      "type": "net.maku.auth.properties.JwtProperties",
+      "sourceType": "net.maku.auth.properties.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "email.from",
+      "type": "java.lang.String",
+      "sourceType": "net.maku.auth.properties.EmailSettings"
+    },
+    {
+      "name": "email.host",
+      "type": "java.lang.String",
+      "sourceType": "net.maku.auth.properties.EmailSettings"
+    },
+    {
+      "name": "email.password",
+      "type": "java.lang.String",
+      "sourceType": "net.maku.auth.properties.EmailSettings"
+    },
+    {
+      "name": "email.username",
+      "type": "java.lang.String",
+      "sourceType": "net.maku.auth.properties.EmailSettings"
+    },
+    {
+      "name": "jwt.api-secret-key",
+      "type": "java.lang.String",
+      "description": "密匙",
+      "sourceType": "net.maku.auth.properties.JwtProperties"
+    },
+    {
+      "name": "jwt.expiration-refresh-time",
+      "type": "java.lang.Long",
+      "description": "RefreshToken过期时间-默认为七天",
+      "sourceType": "net.maku.auth.properties.JwtProperties"
+    },
+    {
+      "name": "jwt.expiration-time",
+      "type": "java.lang.Long",
+      "description": "token过期时间-默认半个小时",
+      "sourceType": "net.maku.auth.properties.JwtProperties"
+    },
+    {
+      "name": "jwt.request-header",
+      "type": "java.lang.String",
+      "description": "默认存放token的请求头",
+      "sourceType": "net.maku.auth.properties.JwtProperties"
+    },
+    {
+      "name": "jwt.token-prefix",
+      "type": "java.lang.String",
+      "description": "默认token前缀",
+      "sourceType": "net.maku.auth.properties.JwtProperties"
+    }
+  ],
+  "hints": []
+}

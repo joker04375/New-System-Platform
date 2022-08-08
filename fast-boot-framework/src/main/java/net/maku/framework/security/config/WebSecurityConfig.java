@@ -24,9 +24,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final OncePerRequestFilter validateCodeFilter;
 
+    private final CustomAuthenticationProvider authProvider;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
+        auth.authenticationProvider(authProvider);
     }
 
     /**
@@ -47,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .loginProcessingUrl("/login")
             .and()
             .authorizeRequests()
+            .antMatchers("/sys/college/file/upload").permitAll()
             .antMatchers("/oauth/authorize").authenticated()  //只需要用户被验证
             .anyRequest().permitAll()  //任何没有匹配上的其他的url请求,所有请求都能被放行
 

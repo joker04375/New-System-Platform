@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import net.maku.framework.common.exception.ErrorCode;
 
+import java.io.Serializable;
+
 /**
  * 响应数据
  *
@@ -11,7 +13,9 @@ import net.maku.framework.common.exception.ErrorCode;
  */
 @Data
 @Schema(description = "响应")
-public class Result<T> {
+public class Result<T> implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Schema(description = "编码 0表示成功，其他值表示失败")
     private int code = 0;
 
@@ -47,6 +51,12 @@ public class Result<T> {
         Result<T> result = new Result<>();
         result.setCode(code);
         result.setMsg(msg);
+        return result;
+    }
+
+    public static <T> Result<T> error(T data) {
+        Result<T> result = new Result<>();
+        result.setData(data);
         return result;
     }
 }
